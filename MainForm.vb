@@ -19,7 +19,6 @@
                     SecurityHelpers.RelaunchElevated()
                 Catch ex As Exception
                     UpdateStatus("Elevation failed.")
-                    AppendDetail($"Failed to relaunch elevated: {ex.Message}")
                     Logger.Error($"Failed to relaunch elevated: {ex}")
                 End Try
             End If
@@ -38,7 +37,7 @@
         Dim profile = GetSelectedProfile()
         If profile Is Nothing Then
             UpdateStatus("Select a profile first.")
-            AppendDetail("Connect requested without a selected profile.")
+            Logger.Info("Connect requested without a selected profile.")
             Return
         End If
 
@@ -54,7 +53,7 @@
                     user = stored.Value.User
                     password = stored.Value.Password
                     hasCredential = True
-                    AppendDetail("Stored credential found; Windows will reconnect this drive after reboot.")
+                    Logger.Info("Stored credential found; Windows will reconnect this drive after reboot.")
                 End If
             End If
 
@@ -70,9 +69,8 @@
                 Try
                     CredentialHelper.SaveCredential(target, user, password)
                     hasCredential = True
-                    AppendDetail("Saved credential to Windows Credential Manager for future logons.")
+                    Logger.Info("Saved credential to Windows Credential Manager for future logons.")
                 Catch ex As Exception
-                    AppendDetail($"Failed to save credential: {ex.Message}")
                     Logger.Error($"Failed to save credential for {profile.Name}: {ex}")
                 End Try
             End If
@@ -82,23 +80,20 @@
 
             If result.Success Then
                 UpdateStatus(result.Message)
-                AppendDetail(result.Message)
                 Logger.Info(result.Message)
 
                 If persist Then
-                    AppendDetail("Persistent mapping enabled; Windows will auto-reconnect after reboot using the saved credential.")
+                    Logger.Info("Persistent mapping enabled; Windows will auto-reconnect after reboot using the saved credential.")
                 ElseIf profile.UseCredentialManager Then
-                    AppendDetail("No saved credential available, so this mapping will not persist across reboots.")
+                    Logger.Info("No saved credential available, so this mapping will not persist across reboots.")
                 End If
             Else
                 Dim errorMessage = $"{result.Message} (code {result.Code})"
                 UpdateStatus(result.Message)
-                AppendDetail(errorMessage)
                 Logger.Error($"Failed to map {profile.Name}: {errorMessage}")
             End If
         Catch ex As Exception
             UpdateStatus("Error connecting.")
-            AppendDetail($"Unhandled error: {ex.Message}")
             Logger.Error($"Unhandled connect error: {ex}")
         End Try
     End Sub
@@ -107,7 +102,7 @@
         Dim profile = GetSelectedProfile()
         If profile Is Nothing Then
             UpdateStatus("Select a profile first.")
-            AppendDetail("Disconnect requested without a selected profile.")
+            Logger.Info("Disconnect requested without a selected profile.")
             Return
         End If
 
@@ -115,27 +110,23 @@
             Dim result = NetDrive.UnmapDrive(profile, False)
             If result.Success Then
                 UpdateStatus(result.Message)
-                AppendDetail(result.Message)
                 Logger.Info(result.Message)
 
                 If chkDeleteCreds.Checked AndAlso profile.UseCredentialManager Then
                     Try
                         CredentialHelper.DeleteCredential(GetCredentialTarget(profile))
-                        AppendDetail("Deleted saved credential.")
+                        Logger.Info("Deleted saved credential.")
                     Catch ex As Exception
-                        AppendDetail($"Failed to delete credential: {ex.Message}")
                         Logger.Error($"Failed to delete credential for {profile.Name}: {ex}")
                     End Try
                 End If
             Else
                 Dim errorMessage = $"{result.Message} (code {result.Code})"
                 UpdateStatus(result.Message)
-                AppendDetail(errorMessage)
                 Logger.Error($"Failed to unmap {profile.Name}: {errorMessage}")
             End If
         Catch ex As Exception
             UpdateStatus("Error disconnecting.")
-            AppendDetail($"Unhandled error: {ex.Message}")
             Logger.Error($"Unhandled disconnect error: {ex}")
         End Try
     End Sub
@@ -149,12 +140,10 @@
 
             Dim message = $"Loaded {_profiles.Count} profile(s)."
             UpdateStatus(message)
-            AppendDetail(message)
         Catch ex As Exception
             _profiles = New List(Of ProfilesStore.Profile)()
             cboProfile.DataSource = Nothing
             UpdateStatus("Failed to load profiles.")
-            AppendDetail($"Failed to load profiles: {ex.Message}")
             Logger.Error($"Failed to load profiles: {ex}")
         End Try
     End Sub
@@ -167,15 +156,6 @@
         toolStatus.Text = $"Status: {message}"
     End Sub
 
-    Private Sub AppendDetail(message As String)
-        If txtDetails Is Nothing Then
-            Return
-        End If
-
-        Dim line = $"{DateTimeOffset.Now:HH:mm:ss} {message}"
-        txtDetails.AppendText(line & Environment.NewLine)
-    End Sub
-
     Private Shared Function GetCredentialTarget(profile As ProfilesStore.Profile) As String
         If profile Is Nothing OrElse String.IsNullOrWhiteSpace(profile.Name) Then
             Return CredentialPrefix
@@ -183,4 +163,8 @@
 
         Return $"{CredentialPrefix}{profile.Name}"
     End Function
+
+    Private Sub chkRememberCreds_CheckedChanged(sender As Object, e As EventArgs) Handles chkRememberCreds.CheckedChanged
+
+    End Sub
 End Class

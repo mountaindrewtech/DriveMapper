@@ -32,11 +32,10 @@ Partial Class MainForm
         btnConnect = New Button()
         btnDisconnect = New Button()
         btnAdmin = New Button()
-        statusStrip = New StatusStrip()
-        toolStatus = New ToolStripStatusLabel()
         chkRememberCreds = New CheckBox()
         chkDeleteCreds = New CheckBox()
-        txtDetails = New TextBox()
+        toolStatus = New ToolStripStatusLabel()
+        statusStrip = New StatusStrip()
         statusStrip.SuspendLayout()
         SuspendLayout()
         ' 
@@ -66,7 +65,7 @@ Partial Class MainForm
         ' 
         ' btnConnect
         ' 
-        btnConnect.Location = New Point(441, 10)
+        btnConnect.Location = New Point(441, 11)
         btnConnect.Name = "btnConnect"
         btnConnect.Size = New Size(75, 23)
         btnConnect.TabIndex = 3
@@ -75,7 +74,7 @@ Partial Class MainForm
         ' 
         ' btnDisconnect
         ' 
-        btnDisconnect.Location = New Point(522, 10)
+        btnDisconnect.Location = New Point(522, 12)
         btnDisconnect.Name = "btnDisconnect"
         btnDisconnect.Size = New Size(75, 23)
         btnDisconnect.TabIndex = 4
@@ -84,32 +83,17 @@ Partial Class MainForm
         ' 
         ' btnAdmin
         ' 
-        btnAdmin.Location = New Point(603, 10)
+        btnAdmin.Location = New Point(603, 12)
         btnAdmin.Name = "btnAdmin"
         btnAdmin.Size = New Size(75, 23)
         btnAdmin.TabIndex = 5
         btnAdmin.Text = "Admin"
         btnAdmin.UseVisualStyleBackColor = True
         ' 
-        ' statusStrip
-        ' 
-        statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
-        statusStrip.Location = New Point(0, 201)
-        statusStrip.Name = "statusStrip"
-        statusStrip.Size = New Size(684, 22)
-        statusStrip.TabIndex = 6
-        statusStrip.Text = "StatusStrip1"
-        ' 
-        ' toolStatus
-        ' 
-        toolStatus.Name = "toolStatus"
-        toolStatus.Size = New Size(42, 17)
-        toolStatus.Text = "Status:"
-        ' 
         ' chkRememberCreds
         ' 
         chkRememberCreds.AutoSize = True
-        chkRememberCreds.Location = New Point(351, 14)
+        chkRememberCreds.Location = New Point(351, 10)
         chkRememberCreds.Name = "chkRememberCreds"
         chkRememberCreds.Size = New Size(84, 19)
         chkRememberCreds.TabIndex = 7
@@ -119,30 +103,34 @@ Partial Class MainForm
         ' chkDeleteCreds
         ' 
         chkDeleteCreds.AutoSize = True
-        chkDeleteCreds.Location = New Point(351, 39)
+        chkDeleteCreds.Location = New Point(351, 35)
         chkDeleteCreds.Name = "chkDeleteCreds"
-        chkDeleteCreds.Size = New Size(168, 19)
+        chkDeleteCreds.Size = New Size(59, 19)
         chkDeleteCreds.TabIndex = 8
-        chkDeleteCreds.Text = "Delete saved credentials"
+        chkDeleteCreds.Text = "Delete"
         chkDeleteCreds.UseVisualStyleBackColor = True
         ' 
-        ' txtDetails
+        ' toolStatus
         ' 
-        txtDetails.Location = New Point(12, 64)
-        txtDetails.Multiline = True
-        txtDetails.Name = "txtDetails"
-        txtDetails.ReadOnly = True
-        txtDetails.ScrollBars = ScrollBars.Vertical
-        txtDetails.Size = New Size(666, 134)
-        txtDetails.TabIndex = 9
+        toolStatus.Name = "toolStatus"
+        toolStatus.Size = New Size(42, 17)
+        toolStatus.Text = "Status:"
+        ' 
+        ' statusStrip
+        ' 
+        statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
+        statusStrip.Location = New Point(0, 59)
+        statusStrip.Name = "statusStrip"
+        statusStrip.Size = New Size(684, 22)
+        statusStrip.TabIndex = 6
+        statusStrip.Text = "StatusStrip1"
         ' 
         ' MainForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(684, 223)
+        ClientSize = New Size(684, 81)
         Controls.Add(chkRememberCreds)
-        Controls.Add(txtDetails)
         Controls.Add(statusStrip)
         Controls.Add(chkDeleteCreds)
         Controls.Add(btnAdmin)
@@ -168,9 +156,8 @@ Partial Class MainForm
     Friend WithEvents btnConnect As Button
     Friend WithEvents btnDisconnect As Button
     Friend WithEvents btnAdmin As Button
-    Friend WithEvents statusStrip As StatusStrip
-    Friend WithEvents toolStatus As ToolStripStatusLabel
     Friend WithEvents chkRememberCreds As CheckBox
     Friend WithEvents chkDeleteCreds As CheckBox
-    Friend WithEvents txtDetails As TextBox
+    Friend WithEvents toolStatus As ToolStripStatusLabel
+    Friend WithEvents statusStrip As StatusStrip
 End Class

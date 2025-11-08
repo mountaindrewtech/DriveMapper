@@ -48,7 +48,7 @@ Partial Class AdminForm
         gridProfiles.Name = "gridProfiles"
         gridProfiles.ReadOnly = True
         gridProfiles.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        gridProfiles.Size = New Size(343, 181)
+        gridProfiles.Size = New Size(423, 181)
         gridProfiles.TabIndex = 0
         ' 
         ' colName
@@ -79,7 +79,7 @@ Partial Class AdminForm
         ' 
         ' btnAdd
         ' 
-        btnAdd.Location = New Point(361, 12)
+        btnAdd.Location = New Point(441, 9)
         btnAdd.Name = "btnAdd"
         btnAdd.Size = New Size(110, 23)
         btnAdd.TabIndex = 1
@@ -88,7 +88,7 @@ Partial Class AdminForm
         ' 
         ' btnEdit
         ' 
-        btnEdit.Location = New Point(361, 41)
+        btnEdit.Location = New Point(441, 38)
         btnEdit.Name = "btnEdit"
         btnEdit.Size = New Size(110, 23)
         btnEdit.TabIndex = 2
@@ -97,7 +97,7 @@ Partial Class AdminForm
         ' 
         ' btnRemove
         ' 
-        btnRemove.Location = New Point(361, 70)
+        btnRemove.Location = New Point(441, 67)
         btnRemove.Name = "btnRemove"
         btnRemove.Size = New Size(110, 23)
         btnRemove.TabIndex = 3
@@ -106,7 +106,7 @@ Partial Class AdminForm
         ' 
         ' btnTest
         ' 
-        btnTest.Location = New Point(361, 99)
+        btnTest.Location = New Point(441, 96)
         btnTest.Name = "btnTest"
         btnTest.Size = New Size(110, 23)
         btnTest.TabIndex = 4
@@ -115,7 +115,7 @@ Partial Class AdminForm
         ' 
         ' btnSave
         ' 
-        btnSave.Location = New Point(361, 128)
+        btnSave.Location = New Point(441, 125)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(110, 23)
         btnSave.TabIndex = 5
@@ -125,7 +125,7 @@ Partial Class AdminForm
         ' chkUseCredentialManager
         ' 
         chkUseCredentialManager.AutoSize = True
-        chkUseCredentialManager.Location = New Point(361, 157)
+        chkUseCredentialManager.Location = New Point(441, 154)
         chkUseCredentialManager.Name = "chkUseCredentialManager"
         chkUseCredentialManager.Size = New Size(121, 34)
         chkUseCredentialManager.TabIndex = 6
@@ -136,7 +136,7 @@ Partial Class AdminForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(483, 200)
+        ClientSize = New Size(564, 200)
         Controls.Add(chkUseCredentialManager)
         Controls.Add(btnSave)
         Controls.Add(btnTest)

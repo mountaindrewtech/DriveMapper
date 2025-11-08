@@ -251,6 +251,8 @@ Public Class AdminForm
                 seed = candidate
             End Using
         End While
+
+        Return Nothing
     End Function
 
     Private Function ValidateProfile(profile As ProfilesStore.Profile, original As ProfilesStore.Profile) As String
