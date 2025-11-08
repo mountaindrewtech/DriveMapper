@@ -35,6 +35,8 @@ Partial Class MainForm
         statusStrip = New StatusStrip()
         toolStatus = New ToolStripStatusLabel()
         chkRememberCreds = New CheckBox()
+        chkDeleteCreds = New CheckBox()
+        txtDetails = New TextBox()
         statusStrip.SuspendLayout()
         SuspendLayout()
         ' 
@@ -92,7 +94,7 @@ Partial Class MainForm
         ' statusStrip
         ' 
         statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
-        statusStrip.Location = New Point(0, 42)
+        statusStrip.Location = New Point(0, 201)
         statusStrip.Name = "statusStrip"
         statusStrip.Size = New Size(684, 22)
         statusStrip.TabIndex = 6
@@ -114,13 +116,35 @@ Partial Class MainForm
         chkRememberCreds.Text = "Remember"
         chkRememberCreds.UseVisualStyleBackColor = True
         ' 
+        ' chkDeleteCreds
+        ' 
+        chkDeleteCreds.AutoSize = True
+        chkDeleteCreds.Location = New Point(351, 39)
+        chkDeleteCreds.Name = "chkDeleteCreds"
+        chkDeleteCreds.Size = New Size(168, 19)
+        chkDeleteCreds.TabIndex = 8
+        chkDeleteCreds.Text = "Delete saved credentials"
+        chkDeleteCreds.UseVisualStyleBackColor = True
+        ' 
+        ' txtDetails
+        ' 
+        txtDetails.Location = New Point(12, 64)
+        txtDetails.Multiline = True
+        txtDetails.Name = "txtDetails"
+        txtDetails.ReadOnly = True
+        txtDetails.ScrollBars = ScrollBars.Vertical
+        txtDetails.Size = New Size(666, 134)
+        txtDetails.TabIndex = 9
+        ' 
         ' MainForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(684, 64)
+        ClientSize = New Size(684, 223)
         Controls.Add(chkRememberCreds)
+        Controls.Add(txtDetails)
         Controls.Add(statusStrip)
+        Controls.Add(chkDeleteCreds)
         Controls.Add(btnAdmin)
         Controls.Add(btnDisconnect)
         Controls.Add(btnConnect)
@@ -147,4 +171,6 @@ Partial Class MainForm
     Friend WithEvents statusStrip As StatusStrip
     Friend WithEvents toolStatus As ToolStripStatusLabel
     Friend WithEvents chkRememberCreds As CheckBox
+    Friend WithEvents chkDeleteCreds As CheckBox
+    Friend WithEvents txtDetails As TextBox
 End Class
