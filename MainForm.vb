@@ -46,12 +46,15 @@
             Dim target = GetCredentialTarget(profile)
             Dim user As String = Nothing
             Dim password As String = Nothing
+            Dim hasCredential As Boolean = False
 
             If profile.UseCredentialManager Then
                 Dim stored = CredentialHelper.ReadCredential(target)
                 If stored.HasValue Then
                     user = stored.Value.User
                     password = stored.Value.Password
+                    hasCredential = True
+                    AppendDetail("Stored credential found; Windows will reconnect this drive after reboot.")
                 End If
             End If
 
@@ -66,20 +69,27 @@
             If profile.UseCredentialManager AndAlso chkRememberCreds.Checked AndAlso Not String.IsNullOrWhiteSpace(user) Then
                 Try
                     CredentialHelper.SaveCredential(target, user, password)
-                    AppendDetail("Saved credential to Windows Credential Manager.")
+                    hasCredential = True
+                    AppendDetail("Saved credential to Windows Credential Manager for future logons.")
                 Catch ex As Exception
                     AppendDetail($"Failed to save credential: {ex.Message}")
                     Logger.Error($"Failed to save credential for {profile.Name}: {ex}")
                 End Try
             End If
 
-            Dim persist = profile.UseCredentialManager
+            Dim persist = profile.UseCredentialManager AndAlso hasCredential
             Dim result = NetDrive.MapDrive(profile, user, password, persist)
 
             If result.Success Then
                 UpdateStatus(result.Message)
                 AppendDetail(result.Message)
                 Logger.Info(result.Message)
+
+                If persist Then
+                    AppendDetail("Persistent mapping enabled; Windows will auto-reconnect after reboot using the saved credential.")
+                ElseIf profile.UseCredentialManager Then
+                    AppendDetail("No saved credential available, so this mapping will not persist across reboots.")
+                End If
             Else
                 Dim errorMessage = $"{result.Message} (code {result.Code})"
                 UpdateStatus(result.Message)
