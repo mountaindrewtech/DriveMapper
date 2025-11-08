@@ -34,6 +34,7 @@ Partial Class MainForm
         btnAdmin = New Button()
         statusStrip = New StatusStrip()
         toolStatus = New ToolStripStatusLabel()
+        chkRememberCreds = New CheckBox()
         statusStrip.SuspendLayout()
         SuspendLayout()
         ' 
@@ -63,7 +64,7 @@ Partial Class MainForm
         ' 
         ' btnConnect
         ' 
-        btnConnect.Location = New Point(351, 11)
+        btnConnect.Location = New Point(441, 10)
         btnConnect.Name = "btnConnect"
         btnConnect.Size = New Size(75, 23)
         btnConnect.TabIndex = 3
@@ -72,7 +73,7 @@ Partial Class MainForm
         ' 
         ' btnDisconnect
         ' 
-        btnDisconnect.Location = New Point(432, 12)
+        btnDisconnect.Location = New Point(522, 10)
         btnDisconnect.Name = "btnDisconnect"
         btnDisconnect.Size = New Size(75, 23)
         btnDisconnect.TabIndex = 4
@@ -81,7 +82,7 @@ Partial Class MainForm
         ' 
         ' btnAdmin
         ' 
-        btnAdmin.Location = New Point(513, 11)
+        btnAdmin.Location = New Point(603, 10)
         btnAdmin.Name = "btnAdmin"
         btnAdmin.Size = New Size(75, 23)
         btnAdmin.TabIndex = 5
@@ -93,7 +94,7 @@ Partial Class MainForm
         statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
         statusStrip.Location = New Point(0, 42)
         statusStrip.Name = "statusStrip"
-        statusStrip.Size = New Size(598, 22)
+        statusStrip.Size = New Size(684, 22)
         statusStrip.TabIndex = 6
         statusStrip.Text = "StatusStrip1"
         ' 
@@ -103,11 +104,22 @@ Partial Class MainForm
         toolStatus.Size = New Size(42, 17)
         toolStatus.Text = "Status:"
         ' 
+        ' chkRememberCreds
+        ' 
+        chkRememberCreds.AutoSize = True
+        chkRememberCreds.Location = New Point(351, 14)
+        chkRememberCreds.Name = "chkRememberCreds"
+        chkRememberCreds.Size = New Size(84, 19)
+        chkRememberCreds.TabIndex = 7
+        chkRememberCreds.Text = "Remember"
+        chkRememberCreds.UseVisualStyleBackColor = True
+        ' 
         ' MainForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(598, 64)
+        ClientSize = New Size(684, 64)
+        Controls.Add(chkRememberCreds)
         Controls.Add(statusStrip)
         Controls.Add(btnAdmin)
         Controls.Add(btnDisconnect)
@@ -134,4 +146,5 @@ Partial Class MainForm
     Friend WithEvents btnAdmin As Button
     Friend WithEvents statusStrip As StatusStrip
     Friend WithEvents toolStatus As ToolStripStatusLabel
+    Friend WithEvents chkRememberCreds As CheckBox
 End Class

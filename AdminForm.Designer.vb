@@ -35,6 +35,7 @@ Partial Class AdminForm
         btnRemove = New Button()
         btnTest = New Button()
         btnSave = New Button()
+        chkUseCredentialManager = New CheckBox()
         CType(gridProfiles, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -71,7 +72,7 @@ Partial Class AdminForm
         ' 
         btnAdd.Location = New Point(361, 12)
         btnAdd.Name = "btnAdd"
-        btnAdd.Size = New Size(75, 23)
+        btnAdd.Size = New Size(110, 23)
         btnAdd.TabIndex = 1
         btnAdd.Text = "Add"
         btnAdd.UseVisualStyleBackColor = True
@@ -80,7 +81,7 @@ Partial Class AdminForm
         ' 
         btnEdit.Location = New Point(361, 41)
         btnEdit.Name = "btnEdit"
-        btnEdit.Size = New Size(75, 23)
+        btnEdit.Size = New Size(110, 23)
         btnEdit.TabIndex = 2
         btnEdit.Text = "Edit"
         btnEdit.UseVisualStyleBackColor = True
@@ -89,7 +90,7 @@ Partial Class AdminForm
         ' 
         btnRemove.Location = New Point(361, 70)
         btnRemove.Name = "btnRemove"
-        btnRemove.Size = New Size(75, 23)
+        btnRemove.Size = New Size(110, 23)
         btnRemove.TabIndex = 3
         btnRemove.Text = "Remove"
         btnRemove.UseVisualStyleBackColor = True
@@ -98,7 +99,7 @@ Partial Class AdminForm
         ' 
         btnTest.Location = New Point(361, 99)
         btnTest.Name = "btnTest"
-        btnTest.Size = New Size(75, 23)
+        btnTest.Size = New Size(110, 23)
         btnTest.TabIndex = 4
         btnTest.Text = "Test"
         btnTest.UseVisualStyleBackColor = True
@@ -107,16 +108,27 @@ Partial Class AdminForm
         ' 
         btnSave.Location = New Point(361, 128)
         btnSave.Name = "btnSave"
-        btnSave.Size = New Size(75, 23)
+        btnSave.Size = New Size(110, 23)
         btnSave.TabIndex = 5
         btnSave.Text = "Save"
         btnSave.UseVisualStyleBackColor = True
+        ' 
+        ' chkUseCredentialManager
+        ' 
+        chkUseCredentialManager.AutoSize = True
+        chkUseCredentialManager.Location = New Point(361, 157)
+        chkUseCredentialManager.Name = "chkUseCredentialManager"
+        chkUseCredentialManager.Size = New Size(121, 34)
+        chkUseCredentialManager.TabIndex = 6
+        chkUseCredentialManager.Text = "Enable Credential " & vbCrLf & "Manager"
+        chkUseCredentialManager.UseVisualStyleBackColor = True
         ' 
         ' AdminForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(445, 207)
+        ClientSize = New Size(483, 200)
+        Controls.Add(chkUseCredentialManager)
         Controls.Add(btnSave)
         Controls.Add(btnTest)
         Controls.Add(btnRemove)
@@ -130,6 +142,7 @@ Partial Class AdminForm
         Text = "AdminForm"
         CType(gridProfiles, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents gridProfiles As DataGridView
@@ -141,4 +154,5 @@ Partial Class AdminForm
     Friend WithEvents btnRemove As Button
     Friend WithEvents btnTest As Button
     Friend WithEvents btnSave As Button
+    Friend WithEvents chkUseCredentialManager As CheckBox
 End Class
