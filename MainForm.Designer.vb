@@ -26,9 +26,110 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Text = "MainForm"
+        cboProfile = New ComboBox()
+        txtUser = New TextBox()
+        txtPassword = New TextBox()
+        btnConnect = New Button()
+        btnDisconnect = New Button()
+        btnAdmin = New Button()
+        statusStrip = New StatusStrip()
+        toolStatus = New ToolStripStatusLabel()
+        statusStrip.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' cboProfile
+        ' 
+        cboProfile.DropDownStyle = ComboBoxStyle.DropDownList
+        cboProfile.FormattingEnabled = True
+        cboProfile.Location = New Point(12, 12)
+        cboProfile.Name = "cboProfile"
+        cboProfile.Size = New Size(121, 23)
+        cboProfile.TabIndex = 0
+        ' 
+        ' txtUser
+        ' 
+        txtUser.Location = New Point(139, 12)
+        txtUser.Name = "txtUser"
+        txtUser.Size = New Size(100, 23)
+        txtUser.TabIndex = 1
+        ' 
+        ' txtPassword
+        ' 
+        txtPassword.Location = New Point(245, 11)
+        txtPassword.Name = "txtPassword"
+        txtPassword.Size = New Size(100, 23)
+        txtPassword.TabIndex = 2
+        txtPassword.UseSystemPasswordChar = True
+        ' 
+        ' btnConnect
+        ' 
+        btnConnect.Location = New Point(351, 11)
+        btnConnect.Name = "btnConnect"
+        btnConnect.Size = New Size(75, 23)
+        btnConnect.TabIndex = 3
+        btnConnect.Text = "Connect"
+        btnConnect.UseVisualStyleBackColor = True
+        ' 
+        ' btnDisconnect
+        ' 
+        btnDisconnect.Location = New Point(432, 12)
+        btnDisconnect.Name = "btnDisconnect"
+        btnDisconnect.Size = New Size(75, 23)
+        btnDisconnect.TabIndex = 4
+        btnDisconnect.Text = "Disconnect"
+        btnDisconnect.UseVisualStyleBackColor = True
+        ' 
+        ' btnAdmin
+        ' 
+        btnAdmin.Location = New Point(513, 11)
+        btnAdmin.Name = "btnAdmin"
+        btnAdmin.Size = New Size(75, 23)
+        btnAdmin.TabIndex = 5
+        btnAdmin.Text = "Admin"
+        btnAdmin.UseVisualStyleBackColor = True
+        ' 
+        ' statusStrip
+        ' 
+        statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
+        statusStrip.Location = New Point(0, 42)
+        statusStrip.Name = "statusStrip"
+        statusStrip.Size = New Size(598, 22)
+        statusStrip.TabIndex = 6
+        statusStrip.Text = "StatusStrip1"
+        ' 
+        ' toolStatus
+        ' 
+        toolStatus.Name = "toolStatus"
+        toolStatus.Size = New Size(42, 17)
+        toolStatus.Text = "Status:"
+        ' 
+        ' MainForm
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(598, 64)
+        Controls.Add(statusStrip)
+        Controls.Add(btnAdmin)
+        Controls.Add(btnDisconnect)
+        Controls.Add(btnConnect)
+        Controls.Add(txtPassword)
+        Controls.Add(txtUser)
+        Controls.Add(cboProfile)
+        Name = "MainForm"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "DriveMapper"
+        statusStrip.ResumeLayout(False)
+        statusStrip.PerformLayout()
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
+
+    Friend WithEvents cboProfile As ComboBox
+    Friend WithEvents txtUser As TextBox
+    Friend WithEvents txtPassword As TextBox
+    Friend WithEvents btnConnect As Button
+    Friend WithEvents btnDisconnect As Button
+    Friend WithEvents btnAdmin As Button
+    Friend WithEvents statusStrip As StatusStrip
+    Friend WithEvents toolStatus As ToolStripStatusLabel
 End Class
