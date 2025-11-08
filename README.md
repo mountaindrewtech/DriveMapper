@@ -32,7 +32,7 @@ DriveMapper includes optional integration with **Windows Credential Manager** fo
    %ProgramData%\DriveMapper\Profiles.json
    ```
 4. Default permissions:
-   - **IT Admins:** Modify access  
+   - **Administrators:** Modify access  
    - **Users:** Read-only access
 
 ---
@@ -46,7 +46,7 @@ DriveMapper includes optional integration with **Windows Credential Manager** fo
 5. Click **Connect** — the drive appears in File Explorer.  
 6. Use **Disconnect** to unmap when finished.
 
-### For IT admins
+### For Administrators
 1. Click **Admin** to open the management panel.  
 2. Add or edit drive profiles (`Name`, `UNC Path`, `Drive Letter`).  
 3. Use **Test** to validate share reachability.  
@@ -93,7 +93,7 @@ Please test any changes on Windows 10 and 11 before submitting a PR.
 
 ## 🧩 Author
 **Drew Schmidt**  
-Built for IT administrators and teams who want a simple, secure way to manage shared drives.
+Built for IT administrators and teams who want a simple, secure way to manage shared drives, and allow their users an easy to use interface.
 
 ---
 
