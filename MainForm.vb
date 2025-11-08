@@ -27,10 +27,11 @@
         End If
 
         Using admin As New AdminForm()
-            admin.ShowDialog(Me)
+            Dim result = admin.ShowDialog(Me)
+            If result = DialogResult.OK Then
+                LoadProfilesIntoCombo()
+            End If
         End Using
-
-        LoadProfilesIntoCombo()
     End Sub
 
     Private Sub btnConnect_Click(sender As Object, e As EventArgs) Handles btnConnect.Click

@@ -27,9 +27,10 @@ Partial Class AdminForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         gridProfiles = New DataGridView()
-        Name = New DataGridViewTextBoxColumn()
-        Unc = New DataGridViewTextBoxColumn()
-        DriveLetter = New DataGridViewTextBoxColumn()
+        colName = New DataGridViewTextBoxColumn()
+        colUnc = New DataGridViewTextBoxColumn()
+        colDriveLetter = New DataGridViewTextBoxColumn()
+        colUseCredential = New DataGridViewCheckBoxColumn()
         btnAdd = New Button()
         btnEdit = New Button()
         btnRemove = New Button()
@@ -42,7 +43,7 @@ Partial Class AdminForm
         ' gridProfiles
         ' 
         gridProfiles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        gridProfiles.Columns.AddRange(New DataGridViewColumn() {Name, Unc, DriveLetter})
+        gridProfiles.Columns.AddRange(New DataGridViewColumn() {colName, colUnc, colDriveLetter, colUseCredential})
         gridProfiles.Location = New Point(12, 12)
         gridProfiles.Name = "gridProfiles"
         gridProfiles.ReadOnly = True
@@ -50,23 +51,31 @@ Partial Class AdminForm
         gridProfiles.Size = New Size(343, 181)
         gridProfiles.TabIndex = 0
         ' 
-        ' Name
+        ' colName
         ' 
-        Name.HeaderText = "Name"
-        Name.Name = "Name"
-        Name.ReadOnly = True
+        colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        colName.HeaderText = "Name"
+        colName.Name = "colName"
+        colName.ReadOnly = True
         ' 
-        ' Unc
+        ' colUnc
         ' 
-        Unc.HeaderText = "Unc"
-        Unc.Name = "Unc"
-        Unc.ReadOnly = True
+        colUnc.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        colUnc.HeaderText = "UNC"
+        colUnc.Name = "colUnc"
+        colUnc.ReadOnly = True
         ' 
-        ' DriveLetter
+        ' colDriveLetter
         ' 
-        DriveLetter.HeaderText = "DriveLetter"
-        DriveLetter.Name = "DriveLetter"
-        DriveLetter.ReadOnly = True
+        colDriveLetter.HeaderText = "Drive"
+        colDriveLetter.Name = "colDriveLetter"
+        colDriveLetter.ReadOnly = True
+        ' 
+        ' colUseCredential
+        ' 
+        colUseCredential.HeaderText = "CredMgr"
+        colUseCredential.Name = "colUseCredential"
+        colUseCredential.ReadOnly = True
         ' 
         ' btnAdd
         ' 
@@ -146,9 +155,10 @@ Partial Class AdminForm
     End Sub
 
     Friend WithEvents gridProfiles As DataGridView
-    Friend WithEvents Name As DataGridViewTextBoxColumn
-    Friend WithEvents Unc As DataGridViewTextBoxColumn
-    Friend WithEvents DriveLetter As DataGridViewTextBoxColumn
+    Friend WithEvents colName As DataGridViewTextBoxColumn
+    Friend WithEvents colUnc As DataGridViewTextBoxColumn
+    Friend WithEvents colDriveLetter As DataGridViewTextBoxColumn
+    Friend WithEvents colUseCredential As DataGridViewCheckBoxColumn
     Friend WithEvents btnAdd As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnRemove As Button
