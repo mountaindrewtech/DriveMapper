@@ -1,0 +1,25 @@
+<Project Sdk="WixToolset.Sdk/4.0.4">
+  <PropertyGroup>
+    <OutputName>DriveMapperSetup</OutputName>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <ProductVersion>1.0.0</ProductVersion>
+    <Lang>1033</Lang>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DriveMapper.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BindPath Include="DriveMapperBin">$(ProjectDir)..\bin\$(Configuration)\net8.0-windows\</BindPath>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Defaults\Profiles.json" />
+  </ItemGroup>
+</Project>
