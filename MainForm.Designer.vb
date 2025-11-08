@@ -115,6 +115,8 @@ Partial Class MainForm
         Controls.Add(txtPassword)
         Controls.Add(txtUser)
         Controls.Add(cboProfile)
+        FormBorderStyle = FormBorderStyle.FixedDialog
+        MaximizeBox = False
         Name = "MainForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "DriveMapper"
