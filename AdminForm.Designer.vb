@@ -27,29 +27,85 @@ Partial Class AdminForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         gridProfiles = New DataGridView()
-        colName = New DataGridViewTextBoxColumn()
-        colUnc = New DataGridViewTextBoxColumn()
-        colDriveLetter = New DataGridViewTextBoxColumn()
-        colUseCredential = New DataGridViewCheckBoxColumn()
         btnAdd = New Button()
         btnEdit = New Button()
         btnRemove = New Button()
         btnTest = New Button()
         btnSave = New Button()
         chkUseCredentialManager = New CheckBox()
+        colName = New DataGridViewTextBoxColumn()
+        colUnc = New DataGridViewTextBoxColumn()
+        colDriveLetter = New DataGridViewTextBoxColumn()
+        Domain = New DataGridViewTextBoxColumn()
+        colUseCredential = New DataGridViewCheckBoxColumn()
         CType(gridProfiles, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' gridProfiles
         ' 
         gridProfiles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        gridProfiles.Columns.AddRange(New DataGridViewColumn() {colName, colUnc, colDriveLetter, colUseCredential})
+        gridProfiles.Columns.AddRange(New DataGridViewColumn() {colName, colUnc, colDriveLetter, Domain, colUseCredential})
         gridProfiles.Location = New Point(12, 12)
         gridProfiles.Name = "gridProfiles"
         gridProfiles.ReadOnly = True
         gridProfiles.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        gridProfiles.Size = New Size(423, 181)
+        gridProfiles.Size = New Size(543, 181)
         gridProfiles.TabIndex = 0
+        ' 
+        ' btnAdd
+        ' 
+        btnAdd.Location = New Point(561, 12)
+        btnAdd.Name = "btnAdd"
+        btnAdd.Size = New Size(110, 23)
+        btnAdd.TabIndex = 1
+        btnAdd.Text = "Add"
+        btnAdd.UseVisualStyleBackColor = True
+        ' 
+        ' btnEdit
+        ' 
+        btnEdit.Location = New Point(561, 41)
+        btnEdit.Name = "btnEdit"
+        btnEdit.Size = New Size(110, 23)
+        btnEdit.TabIndex = 2
+        btnEdit.Text = "Edit"
+        btnEdit.UseVisualStyleBackColor = True
+        ' 
+        ' btnRemove
+        ' 
+        btnRemove.Location = New Point(561, 70)
+        btnRemove.Name = "btnRemove"
+        btnRemove.Size = New Size(110, 23)
+        btnRemove.TabIndex = 3
+        btnRemove.Text = "Remove"
+        btnRemove.UseVisualStyleBackColor = True
+        ' 
+        ' btnTest
+        ' 
+        btnTest.Location = New Point(561, 99)
+        btnTest.Name = "btnTest"
+        btnTest.Size = New Size(110, 23)
+        btnTest.TabIndex = 4
+        btnTest.Text = "Test"
+        btnTest.UseVisualStyleBackColor = True
+        ' 
+        ' btnSave
+        ' 
+        btnSave.Location = New Point(561, 128)
+        btnSave.Name = "btnSave"
+        btnSave.Size = New Size(110, 23)
+        btnSave.TabIndex = 5
+        btnSave.Text = "Save"
+        btnSave.UseVisualStyleBackColor = True
+        ' 
+        ' chkUseCredentialManager
+        ' 
+        chkUseCredentialManager.AutoSize = True
+        chkUseCredentialManager.Location = New Point(561, 157)
+        chkUseCredentialManager.Name = "chkUseCredentialManager"
+        chkUseCredentialManager.Size = New Size(121, 34)
+        chkUseCredentialManager.TabIndex = 6
+        chkUseCredentialManager.Text = "Enable Credential " & vbCrLf & "Manager"
+        chkUseCredentialManager.UseVisualStyleBackColor = True
         ' 
         ' colName
         ' 
@@ -71,72 +127,23 @@ Partial Class AdminForm
         colDriveLetter.Name = "colDriveLetter"
         colDriveLetter.ReadOnly = True
         ' 
+        ' Domain
+        ' 
+        Domain.HeaderText = "Domain"
+        Domain.Name = "Domain"
+        Domain.ReadOnly = True
+        ' 
         ' colUseCredential
         ' 
         colUseCredential.HeaderText = "CredMgr"
         colUseCredential.Name = "colUseCredential"
         colUseCredential.ReadOnly = True
         ' 
-        ' btnAdd
-        ' 
-        btnAdd.Location = New Point(441, 9)
-        btnAdd.Name = "btnAdd"
-        btnAdd.Size = New Size(110, 23)
-        btnAdd.TabIndex = 1
-        btnAdd.Text = "Add"
-        btnAdd.UseVisualStyleBackColor = True
-        ' 
-        ' btnEdit
-        ' 
-        btnEdit.Location = New Point(441, 38)
-        btnEdit.Name = "btnEdit"
-        btnEdit.Size = New Size(110, 23)
-        btnEdit.TabIndex = 2
-        btnEdit.Text = "Edit"
-        btnEdit.UseVisualStyleBackColor = True
-        ' 
-        ' btnRemove
-        ' 
-        btnRemove.Location = New Point(441, 67)
-        btnRemove.Name = "btnRemove"
-        btnRemove.Size = New Size(110, 23)
-        btnRemove.TabIndex = 3
-        btnRemove.Text = "Remove"
-        btnRemove.UseVisualStyleBackColor = True
-        ' 
-        ' btnTest
-        ' 
-        btnTest.Location = New Point(441, 96)
-        btnTest.Name = "btnTest"
-        btnTest.Size = New Size(110, 23)
-        btnTest.TabIndex = 4
-        btnTest.Text = "Test"
-        btnTest.UseVisualStyleBackColor = True
-        ' 
-        ' btnSave
-        ' 
-        btnSave.Location = New Point(441, 125)
-        btnSave.Name = "btnSave"
-        btnSave.Size = New Size(110, 23)
-        btnSave.TabIndex = 5
-        btnSave.Text = "Save"
-        btnSave.UseVisualStyleBackColor = True
-        ' 
-        ' chkUseCredentialManager
-        ' 
-        chkUseCredentialManager.AutoSize = True
-        chkUseCredentialManager.Location = New Point(441, 154)
-        chkUseCredentialManager.Name = "chkUseCredentialManager"
-        chkUseCredentialManager.Size = New Size(121, 34)
-        chkUseCredentialManager.TabIndex = 6
-        chkUseCredentialManager.Text = "Enable Credential " & vbCrLf & "Manager"
-        chkUseCredentialManager.UseVisualStyleBackColor = True
-        ' 
         ' AdminForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(564, 200)
+        ClientSize = New Size(683, 200)
         Controls.Add(chkUseCredentialManager)
         Controls.Add(btnSave)
         Controls.Add(btnTest)
@@ -155,14 +162,15 @@ Partial Class AdminForm
     End Sub
 
     Friend WithEvents gridProfiles As DataGridView
-    Friend WithEvents colName As DataGridViewTextBoxColumn
-    Friend WithEvents colUnc As DataGridViewTextBoxColumn
-    Friend WithEvents colDriveLetter As DataGridViewTextBoxColumn
-    Friend WithEvents colUseCredential As DataGridViewCheckBoxColumn
     Friend WithEvents btnAdd As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnRemove As Button
     Friend WithEvents btnTest As Button
     Friend WithEvents btnSave As Button
     Friend WithEvents chkUseCredentialManager As CheckBox
+    Friend WithEvents colName As DataGridViewTextBoxColumn
+    Friend WithEvents colUnc As DataGridViewTextBoxColumn
+    Friend WithEvents colDriveLetter As DataGridViewTextBoxColumn
+    Friend WithEvents Domain As DataGridViewTextBoxColumn
+    Friend WithEvents colUseCredential As DataGridViewCheckBoxColumn
 End Class
