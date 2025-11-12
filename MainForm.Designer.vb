@@ -51,7 +51,7 @@ Partial Class MainForm
         ' 
         ' txtUser
         ' 
-        txtUser.Location = New Point(245, 9)
+        txtUser.Location = New Point(245, 12)
         txtUser.Name = "txtUser"
         txtUser.PlaceholderText = "Username"
         txtUser.Size = New Size(100, 23)
@@ -59,7 +59,7 @@ Partial Class MainForm
         ' 
         ' txtPassword
         ' 
-        txtPassword.Location = New Point(351, 9)
+        txtPassword.Location = New Point(351, 12)
         txtPassword.Name = "txtPassword"
         txtPassword.PlaceholderText = "Password"
         txtPassword.Size = New Size(100, 23)
@@ -68,7 +68,7 @@ Partial Class MainForm
         ' 
         ' btnConnect
         ' 
-        btnConnect.Location = New Point(547, 9)
+        btnConnect.Location = New Point(547, 12)
         btnConnect.Name = "btnConnect"
         btnConnect.Size = New Size(75, 23)
         btnConnect.TabIndex = 3
@@ -77,7 +77,7 @@ Partial Class MainForm
         ' 
         ' btnDisconnect
         ' 
-        btnDisconnect.Location = New Point(628, 8)
+        btnDisconnect.Location = New Point(628, 12)
         btnDisconnect.Name = "btnDisconnect"
         btnDisconnect.Size = New Size(75, 23)
         btnDisconnect.TabIndex = 4
@@ -86,7 +86,7 @@ Partial Class MainForm
         ' 
         ' btnAdmin
         ' 
-        btnAdmin.Location = New Point(709, 8)
+        btnAdmin.Location = New Point(709, 12)
         btnAdmin.Name = "btnAdmin"
         btnAdmin.Size = New Size(75, 23)
         btnAdmin.TabIndex = 5

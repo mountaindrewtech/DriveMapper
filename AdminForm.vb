@@ -28,6 +28,7 @@ Public Class AdminForm
         colName.DataPropertyName = NameOf(ProfilesStore.Profile.Name)
         colUnc.DataPropertyName = NameOf(ProfilesStore.Profile.Unc)
         colDriveLetter.DataPropertyName = NameOf(ProfilesStore.Profile.DriveLetter)
+        Domain.DataPropertyName = NameOf(ProfilesStore.Profile.Domain)
         colUseCredential.DataPropertyName = NameOf(ProfilesStore.Profile.UseCredentialManager)
 
         gridProfiles.DataSource = _binding
@@ -94,6 +95,7 @@ Public Class AdminForm
         selected.Unc = updated.Unc
         selected.DriveLetter = updated.DriveLetter
         selected.UseCredentialManager = updated.UseCredentialManager
+        selected.Domain = updated.Domain
         _binding.ResetBindings(False)
         SyncCredentialCheckbox()
     End Sub
@@ -239,7 +241,8 @@ Public Class AdminForm
                     .Name = editor.ProfileName,
                     .Unc = editor.ProfileUnc,
                     .DriveLetter = NormalizeDriveLetter(editor.ProfileDriveLetter),
-                    .UseCredentialManager = editor.ProfileUsesCredentialManager
+                    .UseCredentialManager = editor.ProfileUsesCredentialManager,
+                    .Domain = editor.ProfileDomain
                 }
 
                 Dim validationError = ValidateProfile(candidate, existing)
@@ -352,7 +355,8 @@ Public Class AdminForm
             .Name = profile.Name,
             .Unc = profile.Unc,
             .DriveLetter = profile.DriveLetter,
-            .UseCredentialManager = profile.UseCredentialManager
+            .UseCredentialManager = profile.UseCredentialManager,
+            .Domain = profile.Domain
         }
     End Function
 
@@ -362,6 +366,7 @@ Public Class AdminForm
         Private ReadOnly _txtName As New TextBox()
         Private ReadOnly _txtUnc As New TextBox()
         Private ReadOnly _txtDrive As New TextBox()
+        Private ReadOnly _txtDomain As New TextBox()
         Private ReadOnly _chkCredential As New CheckBox()
 
         Public ReadOnly Property ProfileName As String
@@ -382,6 +387,12 @@ Public Class AdminForm
             End Get
         End Property
 
+        Public ReadOnly Property ProfileDomain As String
+            Get
+                Return _txtDomain.Text.Trim()
+            End Get
+        End Property
+
         Public ReadOnly Property ProfileUsesCredentialManager As Boolean
             Get
                 Return _chkCredential.Checked
@@ -394,39 +405,49 @@ Public Class AdminForm
             StartPosition = FormStartPosition.CenterParent
             MaximizeBox = False
             MinimizeBox = False
-            ClientSize = New Size(320, 200)
+            ClientSize = New Size(360, 230)
             KeyPreview = True
 
             Dim lblName As New Label() With {.Text = "Name", .Location = New Point(12, 15), .AutoSize = True}
             _txtName.Location = New Point(120, 12)
-            _txtName.Width = 180
+            _txtName.Width = 210
 
             Dim lblUnc As New Label() With {.Text = "UNC", .Location = New Point(12, 50), .AutoSize = True}
             _txtUnc.Location = New Point(120, 47)
-            _txtUnc.Width = 180
+            _txtUnc.Width = 210
 
-            Dim lblDrive As New Label() With {.Text = "Drive Letter", .Location = New Point(12, 85), .AutoSize = True}
-            _txtDrive.Location = New Point(120, 82)
+            Dim lblDomain As New Label() With {.Text = "Domain (optional)", .Location = New Point(12, 85), .AutoSize = True}
+            _txtDomain.Location = New Point(120, 82)
+            _txtDomain.Width = 210
+
+            Dim lblDrive As New Label() With {.Text = "Drive Letter", .Location = New Point(12, 120), .AutoSize = True}
+            _txtDrive.Location = New Point(120, 117)
             _txtDrive.Width = 60
 
             _chkCredential.Text = "Use Credential Manager"
-            _chkCredential.Location = New Point(120, 117)
+            _chkCredential.Location = New Point(120, 150)
             _chkCredential.AutoSize = True
 
-            Dim btnOk As New Button() With {.Text = "OK", .DialogResult = DialogResult.None, .Location = New Point(144, 155), .Width = 75}
-            Dim btnCancel As New Button() With {.Text = "Cancel", .DialogResult = DialogResult.Cancel, .Location = New Point(225, 155), .Width = 75}
+            Dim btnOk As New Button() With {.Text = "OK", .DialogResult = DialogResult.None, .Location = New Point(168, 185), .Width = 75}
+            Dim btnCancel As New Button() With {.Text = "Cancel", .DialogResult = DialogResult.Cancel, .Location = New Point(249, 185), .Width = 75}
 
             AddHandler btnOk.Click, AddressOf OnOkClicked
 
             AcceptButton = btnOk
             CancelButton = btnCancel
 
-            Controls.AddRange(New Control() {lblName, _txtName, lblUnc, _txtUnc, lblDrive, _txtDrive, _chkCredential, btnOk, btnCancel})
+            Controls.AddRange(New Control() {
+                lblName, _txtName,
+                lblUnc, _txtUnc,
+                lblDomain, _txtDomain,
+                lblDrive, _txtDrive,
+                _chkCredential, btnOk, btnCancel})
 
             If seed IsNot Nothing Then
                 _txtName.Text = seed.Name
                 _txtUnc.Text = seed.Unc
                 _txtDrive.Text = seed.DriveLetter
+                _txtDomain.Text = seed.Domain
                 _chkCredential.Checked = seed.UseCredentialManager
             Else
                 _chkCredential.Checked = True

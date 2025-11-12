@@ -10,6 +10,7 @@ Public Class ProfilesStore
         Public Property Unc As String = String.Empty
         Public Property DriveLetter As String = String.Empty
         Public Property UseCredentialManager As Boolean = True
+        Public Property Domain As String = String.Empty
     End Class
 
     Private Shared ReadOnly ProfilesDirectory As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DriveMapper")
@@ -30,6 +31,11 @@ Public Class ProfilesStore
                 If profiles Is Nothing Then
                     Return New List(Of Profile)()
                 End If
+                For Each profile In profiles
+                    If profile.Domain Is Nothing Then
+                        profile.Domain = String.Empty
+                    End If
+                Next
                 Return profiles
             End Using
         Catch ex As Exception
@@ -48,7 +54,20 @@ Public Class ProfilesStore
                 Directory.CreateDirectory(ProfilesDirectory)
             End If
 
-            Dim data = New List(Of Profile)(profiles)
+            Dim data = New List(Of Profile)()
+            For Each profile In profiles
+                If profile Is Nothing Then
+                    Continue For
+                End If
+
+                If profile.Domain Is Nothing Then
+                    profile.Domain = String.Empty
+                Else
+                    profile.Domain = profile.Domain.Trim()
+                End If
+
+                data.Add(profile)
+            Next
 
             Using stream = File.Create(ProfilesPath)
                 JsonSerializer.Serialize(stream, data, SerializerOptions)

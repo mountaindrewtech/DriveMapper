@@ -42,7 +42,8 @@
         End If
 
         Try
-            Dim target = GetCredentialTarget(profile)
+            Dim effectiveDomain = GetEffectiveDomain()
+            Dim target = GetCredentialTarget(profile, effectiveDomain)
             Dim user As String = Nothing
             Dim password As String = Nothing
             Dim hasCredential As Boolean = False
@@ -53,7 +54,8 @@
                     user = stored.Value.User
                     password = stored.Value.Password
                     hasCredential = True
-                    Logger.Info("Stored credential found; Windows will reconnect this drive after reboot.")
+                    Dim storedIdentity = BuildLoginIdentity(user, effectiveDomain)
+                    Logger.Info($"Stored credential found for {profile.Name} as {DescribeLoginIdentity(storedIdentity)}; Windows will reconnect this drive after reboot.")
                 End If
             End If
 
@@ -65,22 +67,26 @@
                 password = txtPassword.Text
             End If
 
-            If profile.UseCredentialManager AndAlso chkRememberCreds.Checked AndAlso Not String.IsNullOrWhiteSpace(user) Then
+            Dim loginIdentity = BuildLoginIdentity(user, effectiveDomain)
+            Dim identityDisplay = DescribeLoginIdentity(loginIdentity)
+
+            If profile.UseCredentialManager AndAlso chkRememberCreds.Checked AndAlso Not String.IsNullOrWhiteSpace(loginIdentity) Then
                 Try
-                    CredentialHelper.SaveCredential(target, user, password)
+                    CredentialHelper.SaveCredential(target, loginIdentity, password)
                     hasCredential = True
-                    Logger.Info("Saved credential to Windows Credential Manager for future logons.")
+                    Logger.Info($"Saved credential for {profile.Name} as {identityDisplay}; Windows will reconnect this drive after reboot.")
                 Catch ex As Exception
-                    Logger.Error($"Failed to save credential for {profile.Name}: {ex}")
+                    Logger.Error($"Failed to save credential for {profile.Name} as {identityDisplay}: {ex}")
                 End Try
             End If
 
             Dim persist = profile.UseCredentialManager AndAlso hasCredential
-            Dim result = NetDrive.MapDrive(profile, user, password, persist)
+            Dim result = NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist)
 
             If result.Success Then
-                UpdateStatus(result.Message)
-                Logger.Info(result.Message)
+                Dim statusMessage = $"{result.Message} as {identityDisplay}"
+                UpdateStatus(statusMessage)
+                Logger.Info(statusMessage)
 
                 If persist Then
                     Logger.Info("Persistent mapping enabled; Windows will auto-reconnect after reboot using the saved credential.")
@@ -89,8 +95,9 @@
                 End If
             Else
                 Dim errorMessage = $"{result.Message} (code {result.Code})"
-                UpdateStatus(result.Message)
-                Logger.Error($"Failed to map {profile.Name}: {errorMessage}")
+                Dim statusMessage = $"{result.Message} as {identityDisplay}"
+                UpdateStatus(statusMessage)
+                Logger.Error($"Failed to map {profile.Name} as {identityDisplay}: {errorMessage}")
             End If
         Catch ex As Exception
             UpdateStatus("Error connecting.")
@@ -106,6 +113,8 @@
             Return
         End If
 
+        Dim effectiveDomain = GetEffectiveDomain()
+
         Try
             Dim result = NetDrive.UnmapDrive(profile, False)
             If result.Success Then
@@ -114,8 +123,9 @@
 
                 If chkDeleteCreds.Checked AndAlso profile.UseCredentialManager Then
                     Try
-                        CredentialHelper.DeleteCredential(GetCredentialTarget(profile))
-                        Logger.Info("Deleted saved credential.")
+                        Dim domainKey = GetDomainKey(effectiveDomain)
+                        CredentialHelper.DeleteCredential(GetCredentialTarget(profile, effectiveDomain))
+                        Logger.Info($"Deleted saved credential for {profile.Name} ({domainKey}).")
                     Catch ex As Exception
                         Logger.Error($"Failed to delete credential for {profile.Name}: {ex}")
                     End Try
@@ -140,12 +150,18 @@
 
             Dim message = $"Loaded {_profiles.Count} profile(s)."
             UpdateStatus(message)
+            PopulateSelectedProfileFields()
         Catch ex As Exception
             _profiles = New List(Of ProfilesStore.Profile)()
             cboProfile.DataSource = Nothing
             UpdateStatus("Failed to load profiles.")
             Logger.Error($"Failed to load profiles: {ex}")
+            PopulateSelectedProfileFields()
         End Try
+    End Sub
+
+    Private Sub cboProfile_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboProfile.SelectedIndexChanged
+        PopulateSelectedProfileFields()
     End Sub
 
     Private Function GetSelectedProfile() As ProfilesStore.Profile
@@ -156,12 +172,66 @@
         toolStatus.Text = $"Status: {message}"
     End Sub
 
-    Private Shared Function GetCredentialTarget(profile As ProfilesStore.Profile) As String
-        If profile Is Nothing OrElse String.IsNullOrWhiteSpace(profile.Name) Then
-            Return CredentialPrefix
+    Private Sub PopulateSelectedProfileFields()
+        If txtDomain Is Nothing Then
+            Return
         End If
 
-        Return $"{CredentialPrefix}{profile.Name}"
+        Dim profile = GetSelectedProfile()
+        If profile Is Nothing Then
+            txtDomain.Text = String.Empty
+            Return
+        End If
+
+        txtDomain.Text = If(profile.Domain, String.Empty)
+    End Sub
+
+    Private Function GetEffectiveDomain() As String
+        If txtDomain Is Nothing Then
+            Return String.Empty
+        End If
+
+        Return txtDomain.Text.Trim()
+    End Function
+
+    Private Shared Function BuildLoginIdentity(user As String, domain As String) As String
+        Dim normalizedUser = If(user, String.Empty).Trim()
+        If String.IsNullOrEmpty(normalizedUser) Then
+            Return String.Empty
+        End If
+
+        If normalizedUser.Contains("\") OrElse normalizedUser.Contains("@") Then
+            Return normalizedUser
+        End If
+
+        Dim normalizedDomain = If(domain, String.Empty).Trim()
+        If String.IsNullOrEmpty(normalizedDomain) Then
+            Return normalizedUser
+        End If
+
+        Return $"{normalizedDomain}\{normalizedUser}"
+    End Function
+
+    Private Shared Function DescribeLoginIdentity(identity As String) As String
+        Return If(String.IsNullOrWhiteSpace(identity), "current Windows user", identity)
+    End Function
+
+    Private Shared Function GetDomainKey(domain As String) As String
+        Dim normalized = If(domain, String.Empty).Trim()
+        If String.IsNullOrEmpty(normalized) Then
+            Return "LOCAL"
+        End If
+
+        Return normalized.ToUpperInvariant()
+    End Function
+
+    Private Shared Function GetCredentialTarget(profile As ProfilesStore.Profile, domain As String) As String
+        Dim domainKey = GetDomainKey(domain)
+        If profile Is Nothing OrElse String.IsNullOrWhiteSpace(profile.Name) Then
+            Return $"{CredentialPrefix}{domainKey}"
+        End If
+
+        Return $"{CredentialPrefix}{profile.Name}_{domainKey}"
     End Function
 
     Private Sub chkRememberCreds_CheckedChanged(sender As Object, e As EventArgs) Handles chkRememberCreds.CheckedChanged
