@@ -1,4 +1,8 @@
-﻿Imports System.Diagnostics
+﻿' Copyright (c) 2025 Drew Schmidt
+' Licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+' See LICENSE for details.
+
+Imports System.Diagnostics
 Imports System.IO
 
 Public Class Logger

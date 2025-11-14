@@ -1,4 +1,8 @@
-﻿Imports System.ComponentModel
+﻿' Copyright (c) 2025 Drew Schmidt
+' Licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+' See LICENSE for details.
+
+Imports System.ComponentModel
 Imports System.Runtime.InteropServices
 Imports System.Text
 
