@@ -1,4 +1,8 @@
-﻿Public Class MainForm
+﻿' Copyright (c) 2025 Drew Schmidt
+' Licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+' See LICENSE for details.
+
+Public Class MainForm
     Private _profiles As List(Of ProfilesStore.Profile) = New List(Of ProfilesStore.Profile)()
     Private Const CredentialPrefix As String = "DriveMapper_"
 
@@ -235,6 +239,22 @@
     End Function
 
     Private Sub chkRememberCreds_CheckedChanged(sender As Object, e As EventArgs) Handles chkRememberCreds.CheckedChanged
+
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblProfile.Click
+
+    End Sub
+
+    Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
+
+    End Sub
+
+    Private Sub chkDeleteCreds_CheckedChanged(sender As Object, e As EventArgs) Handles chkDeleteCreds.CheckedChanged
+
+    End Sub
+
+    Private Sub lblPassword_Click(sender As Object, e As EventArgs) Handles lblPassword.Click
 
     End Sub
 End Class

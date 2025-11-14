@@ -1,4 +1,8 @@
-﻿Imports System.Collections.Generic
+﻿' Copyright (c) 2025 Drew Schmidt
+' Licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+' See LICENSE for details.
+
+Imports System.Collections.Generic
 Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Linq
