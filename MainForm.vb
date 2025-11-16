@@ -106,13 +106,11 @@ Public Class MainForm
 
             Dim hasPersistentCredential = useSavedCredential AndAlso savedCredential.HasValue
             Dim persist = useCredentialManager AndAlso (hasPersistentCredential OrElse rememberCredential)
-            Logger.Info($"Attempting to map profile '{profile.Name}' to drive {profile.DriveLetter}.")
             Dim result = Await Task.Run(Function() NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist))
 
             If result.Success Then
                 Dim statusMessage = $"{result.Message} as {identityDisplay}"
                 UpdateStatus(statusMessage)
-                Logger.Info($"Successfully mapped profile '{profile.Name}' to drive {profile.DriveLetter}.")
 
                 _lastCredentialKeyByProfile(profile.Name) = credentialTarget
 
@@ -127,10 +125,8 @@ Public Class MainForm
 
                 refreshWithSelection = True
             Else
-                Dim errorMessage = $"{result.Message} (code {result.Code})"
                 Dim statusMessage = $"{result.Message} as {identityDisplay}"
                 UpdateStatus(statusMessage)
-                Logger.Error($"Failed to map profile '{profile.Name}' (drive {profile.DriveLetter}): {errorMessage}")
                 refreshWithSelection = False
             End If
         Catch ex As Exception
@@ -399,23 +395,4 @@ Public Class MainForm
         Return $"{CredentialPrefix}{profile.Name}_{domainKey}"
     End Function
 
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblProfile.Click
-
-    End Sub
-
-    Private Sub lblPassword_Click(sender As Object, e As EventArgs) Handles lblPassword.Click
-
-    End Sub
-
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-
-    End Sub
-
-    Private Sub TableLayoutPanel3_Paint(sender As Object, e As PaintEventArgs) Handles TableLayoutPanel3.Paint
-
-    End Sub
-
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
-
-    End Sub
 End Class

@@ -59,8 +59,12 @@ Public Class NetDrive
             flags = flags Or CONNECT_CMD_SAVECRED
         End If
 
+        MappingLogger.LogMappingAttempt(profile.Name, driveLetter, profile.Unc)
         Dim result = WNetAddConnection2(netResource, password, user, flags)
-        If result = 0 Then
+        Dim success = result = 0
+        MappingLogger.LogMappingResult(profile.Name, driveLetter, profile.Unc, success, result)
+
+        If success Then
             Return (True, $"Mapped {driveLetter} to {profile.Unc}.", result)
         End If
 
