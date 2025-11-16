@@ -27,159 +27,68 @@ Partial Class MainForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         cboProfile = New ComboBox()
-        txtUser = New TextBox()
-        txtPassword = New TextBox()
-        btnConnect = New Button()
-        btnDisconnect = New Button()
-        btnAdmin = New Button()
-        chkRememberCreds = New CheckBox()
-        chkDeleteCreds = New CheckBox()
-        toolStatus = New ToolStripStatusLabel()
-        statusStrip = New StatusStrip()
-        txtDomain = New TextBox()
         lblProfile = New Label()
         lblCredentials = New Label()
+        lblActions = New Label()
+        miniToolStrip = New StatusStrip()
+        chkDeleteCreds = New CheckBox()
+        btnAdmin = New Button()
+        btnDisconnect = New Button()
+        btnConnect = New Button()
+        TableLayoutPanel1 = New TableLayoutPanel()
+        statusStrip = New StatusStrip()
+        toolStatus = New ToolStripStatusLabel()
+        TableLayoutPanel2 = New TableLayoutPanel()
+        Panel1 = New Panel()
+        TableLayoutPanel3 = New TableLayoutPanel()
         lblDomain = New Label()
+        txtDomain = New TextBox()
+        txtPassword = New TextBox()
         lblUsername = New Label()
         lblPassword = New Label()
-        lblActions = New Label()
-        grpCredentials = New GroupBox()
-        grpActions = New GroupBox()
+        txtUser = New TextBox()
+        chkRememberCreds = New CheckBox()
+        Label1 = New Label()
+        Panel2 = New Panel()
+        FlowLayoutPanel1 = New FlowLayoutPanel()
+        Label2 = New Label()
+        TableLayoutPanel1.SuspendLayout()
         statusStrip.SuspendLayout()
-        grpCredentials.SuspendLayout()
-        grpActions.SuspendLayout()
+        TableLayoutPanel2.SuspendLayout()
+        Panel1.SuspendLayout()
+        TableLayoutPanel3.SuspendLayout()
+        Panel2.SuspendLayout()
+        FlowLayoutPanel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' cboProfile
         ' 
-        cboProfile.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        cboProfile.BackColor = Color.WhiteSmoke
+        cboProfile.Dock = DockStyle.Fill
+        cboProfile.DropDownHeight = 120
         cboProfile.DropDownStyle = ComboBoxStyle.DropDownList
+        cboProfile.FlatStyle = FlatStyle.Popup
         cboProfile.Font = New Font("Segoe UI", 12F)
+        cboProfile.ForeColor = Color.Black
         cboProfile.FormattingEnabled = True
-        cboProfile.Location = New Point(71, 6)
+        cboProfile.IntegralHeight = False
+        cboProfile.Location = New Point(59, 6)
+        cboProfile.Margin = New Padding(0)
         cboProfile.Name = "cboProfile"
-        cboProfile.Size = New Size(415, 29)
+        cboProfile.Size = New Size(684, 29)
         cboProfile.TabIndex = 0
-        ' 
-        ' txtUser
-        ' 
-        txtUser.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txtUser.Font = New Font("Segoe UI", 12F)
-        txtUser.Location = New Point(91, 58)
-        txtUser.MinimumSize = New Size(180, 0)
-        txtUser.Name = "txtUser"
-        txtUser.PlaceholderText = "Username"
-        txtUser.Size = New Size(383, 29)
-        txtUser.TabIndex = 1
-        ' 
-        ' txtPassword
-        ' 
-        txtPassword.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txtPassword.Font = New Font("Segoe UI", 12F)
-        txtPassword.Location = New Point(91, 94)
-        txtPassword.MinimumSize = New Size(180, 0)
-        txtPassword.Name = "txtPassword"
-        txtPassword.PlaceholderText = "Password"
-        txtPassword.Size = New Size(293, 29)
-        txtPassword.TabIndex = 2
-        txtPassword.UseSystemPasswordChar = True
-        ' 
-        ' btnConnect
-        ' 
-        btnConnect.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnConnect.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
-        btnConnect.Location = New Point(68, 20)
-        btnConnect.Margin = New Padding(6, 3, 6, 3)
-        btnConnect.Name = "btnConnect"
-        btnConnect.Padding = New Padding(8, 0, 8, 0)
-        btnConnect.Size = New Size(130, 36)
-        btnConnect.TabIndex = 3
-        btnConnect.Text = "Connect"
-        btnConnect.UseVisualStyleBackColor = True
-        ' 
-        ' btnDisconnect
-        ' 
-        btnDisconnect.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnDisconnect.Font = New Font("Segoe UI", 12F)
-        btnDisconnect.Location = New Point(207, 20)
-        btnDisconnect.Name = "btnDisconnect"
-        btnDisconnect.Padding = New Padding(8, 0, 8, 0)
-        btnDisconnect.Size = New Size(130, 36)
-        btnDisconnect.TabIndex = 4
-        btnDisconnect.Text = "Disconnect"
-        btnDisconnect.UseVisualStyleBackColor = True
-        ' 
-        ' btnAdmin
-        ' 
-        btnAdmin.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnAdmin.Font = New Font("Segoe UI", 12F)
-        btnAdmin.Location = New Point(343, 20)
-        btnAdmin.Name = "btnAdmin"
-        btnAdmin.Padding = New Padding(8, 0, 8, 0)
-        btnAdmin.Size = New Size(130, 36)
-        btnAdmin.TabIndex = 5
-        btnAdmin.Text = "Admin Panel"
-        btnAdmin.UseVisualStyleBackColor = True
-        ' 
-        ' chkRememberCreds
-        ' 
-        chkRememberCreds.Anchor = AnchorStyles.Right
-        chkRememberCreds.AutoSize = True
-        chkRememberCreds.Font = New Font("Segoe UI", 9F)
-        chkRememberCreds.Location = New Point(390, 101)
-        chkRememberCreds.Name = "chkRememberCreds"
-        chkRememberCreds.Size = New Size(84, 19)
-        chkRememberCreds.TabIndex = 7
-        chkRememberCreds.Text = "Remember"
-        chkRememberCreds.UseVisualStyleBackColor = True
-        ' 
-        ' chkDeleteCreds
-        ' 
-        chkDeleteCreds.AutoSize = True
-        chkDeleteCreds.Font = New Font("Segoe UI", 9F)
-        chkDeleteCreds.Location = New Point(10, 32)
-        chkDeleteCreds.Name = "chkDeleteCreds"
-        chkDeleteCreds.Size = New Size(59, 19)
-        chkDeleteCreds.TabIndex = 8
-        chkDeleteCreds.Text = "Delete"
-        chkDeleteCreds.UseVisualStyleBackColor = True
-        ' 
-        ' toolStatus
-        ' 
-        toolStatus.ForeColor = SystemColors.GrayText
-        toolStatus.Name = "toolStatus"
-        toolStatus.Size = New Size(42, 17)
-        toolStatus.Text = "Status:"
-        ' 
-        ' statusStrip
-        ' 
-        statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
-        statusStrip.Location = New Point(0, 269)
-        statusStrip.Name = "statusStrip"
-        statusStrip.Size = New Size(504, 22)
-        statusStrip.TabIndex = 6
-        statusStrip.Text = "StatusStrip1"
-        ' 
-        ' txtDomain
-        ' 
-        txtDomain.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txtDomain.Font = New Font("Segoe UI", 12F)
-        txtDomain.Location = New Point(91, 25)
-        txtDomain.MinimumSize = New Size(180, 0)
-        txtDomain.Name = "txtDomain"
-        txtDomain.PlaceholderText = "Domain"
-        txtDomain.Size = New Size(383, 29)
-        txtDomain.TabIndex = 9
         ' 
         ' lblProfile
         ' 
         lblProfile.AutoSize = True
-        lblProfile.Font = New Font("Segoe UI", 12F)
-        lblProfile.Location = New Point(12, 9)
+        lblProfile.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblProfile.Location = New Point(10, 6)
+        lblProfile.Margin = New Padding(0, 0, 8, 0)
         lblProfile.Name = "lblProfile"
-        lblProfile.Size = New Size(58, 21)
+        lblProfile.Size = New Size(41, 15)
         lblProfile.TabIndex = 10
-        lblProfile.Text = "Profile:"
+        lblProfile.Text = "Profile"
+        lblProfile.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' lblCredentials
         ' 
@@ -189,36 +98,6 @@ Partial Class MainForm
         lblCredentials.Size = New Size(0, 15)
         lblCredentials.TabIndex = 11
         ' 
-        ' lblDomain
-        ' 
-        lblDomain.AutoSize = True
-        lblDomain.Font = New Font("Segoe UI", 12F)
-        lblDomain.Location = New Point(6, 28)
-        lblDomain.Name = "lblDomain"
-        lblDomain.Size = New Size(68, 21)
-        lblDomain.TabIndex = 12
-        lblDomain.Text = "Domain:"
-        ' 
-        ' lblUsername
-        ' 
-        lblUsername.AutoSize = True
-        lblUsername.Font = New Font("Segoe UI", 12F)
-        lblUsername.Location = New Point(6, 61)
-        lblUsername.Name = "lblUsername"
-        lblUsername.Size = New Size(84, 21)
-        lblUsername.TabIndex = 13
-        lblUsername.Text = "Username:"
-        ' 
-        ' lblPassword
-        ' 
-        lblPassword.AutoSize = True
-        lblPassword.Font = New Font("Segoe UI", 12F)
-        lblPassword.Location = New Point(6, 97)
-        lblPassword.Name = "lblPassword"
-        lblPassword.Size = New Size(79, 21)
-        lblPassword.TabIndex = 14
-        lblPassword.Text = "Password:"
-        ' 
         ' lblActions
         ' 
         lblActions.AutoSize = True
@@ -227,83 +106,362 @@ Partial Class MainForm
         lblActions.Size = New Size(0, 15)
         lblActions.TabIndex = 15
         ' 
-        ' grpCredentials
+        ' miniToolStrip
         ' 
-        grpCredentials.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        grpCredentials.Controls.Add(lblDomain)
-        grpCredentials.Controls.Add(txtDomain)
-        grpCredentials.Controls.Add(lblPassword)
-        grpCredentials.Controls.Add(lblUsername)
-        grpCredentials.Controls.Add(chkRememberCreds)
-        grpCredentials.Controls.Add(txtUser)
-        grpCredentials.Controls.Add(txtPassword)
-        grpCredentials.Font = New Font("Segoe UI Semibold", 14F, FontStyle.Bold)
-        grpCredentials.Location = New Point(12, 44)
-        grpCredentials.Name = "grpCredentials"
-        grpCredentials.Size = New Size(480, 147)
-        grpCredentials.TabIndex = 16
-        grpCredentials.TabStop = False
-        grpCredentials.Text = "Credentials"
+        miniToolStrip.AccessibleName = "New item selection"
+        miniToolStrip.AccessibleRole = AccessibleRole.ButtonDropDown
+        miniToolStrip.AutoSize = False
+        miniToolStrip.Dock = DockStyle.None
+        miniToolStrip.Location = New Point(43, 1)
+        miniToolStrip.Name = "miniToolStrip"
+        miniToolStrip.Size = New Size(860, 22)
+        miniToolStrip.TabIndex = 6
         ' 
-        ' grpActions
+        ' chkDeleteCreds
         ' 
-        grpActions.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        grpActions.Controls.Add(btnConnect)
-        grpActions.Controls.Add(btnDisconnect)
-        grpActions.Controls.Add(btnAdmin)
-        grpActions.Controls.Add(chkDeleteCreds)
-        grpActions.Font = New Font("Segoe UI Semibold", 14F, FontStyle.Bold)
-        grpActions.Location = New Point(13, 197)
-        grpActions.Name = "grpActions"
-        grpActions.Size = New Size(479, 69)
-        grpActions.TabIndex = 17
-        grpActions.TabStop = False
-        grpActions.Text = "Actions"
+        chkDeleteCreds.AutoSize = True
+        chkDeleteCreds.BackColor = Color.Transparent
+        chkDeleteCreds.Font = New Font("Segoe UI", 9F)
+        chkDeleteCreds.Location = New Point(0, 0)
+        chkDeleteCreds.Margin = New Padding(0, 0, 0, 8)
+        chkDeleteCreds.Name = "chkDeleteCreds"
+        chkDeleteCreds.Size = New Size(153, 19)
+        chkDeleteCreds.TabIndex = 8
+        chkDeleteCreds.Text = "Delete existing mapping"
+        chkDeleteCreds.UseVisualStyleBackColor = False
+        ' 
+        ' btnAdmin
+        ' 
+        btnAdmin.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnAdmin.BackColor = Color.White
+        btnAdmin.FlatStyle = FlatStyle.Flat
+        btnAdmin.Font = New Font("Segoe UI", 9F)
+        btnAdmin.Location = New Point(391, 0)
+        btnAdmin.Margin = New Padding(4, 0, 8, 0)
+        btnAdmin.Name = "btnAdmin"
+        btnAdmin.Padding = New Padding(8, 0, 8, 0)
+        btnAdmin.Size = New Size(110, 32)
+        btnAdmin.TabIndex = 5
+        btnAdmin.Text = "Admin Panel"
+        btnAdmin.UseVisualStyleBackColor = False
+        ' 
+        ' btnDisconnect
+        ' 
+        btnDisconnect.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnDisconnect.BackColor = Color.White
+        btnDisconnect.FlatStyle = FlatStyle.Flat
+        btnDisconnect.Font = New Font("Segoe UI", 9F)
+        btnDisconnect.Location = New Point(269, 0)
+        btnDisconnect.Margin = New Padding(4, 0, 8, 0)
+        btnDisconnect.Name = "btnDisconnect"
+        btnDisconnect.Padding = New Padding(8, 0, 8, 0)
+        btnDisconnect.Size = New Size(110, 32)
+        btnDisconnect.TabIndex = 4
+        btnDisconnect.Text = "Disconnect"
+        btnDisconnect.UseVisualStyleBackColor = False
+        ' 
+        ' btnConnect
+        ' 
+        btnConnect.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnConnect.BackColor = SystemColors.Highlight
+        btnConnect.FlatStyle = FlatStyle.Flat
+        btnConnect.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        btnConnect.ForeColor = Color.Gainsboro
+        btnConnect.Location = New Point(157, 0)
+        btnConnect.Margin = New Padding(4, 0, 8, 0)
+        btnConnect.Name = "btnConnect"
+        btnConnect.Padding = New Padding(8, 0, 8, 0)
+        btnConnect.Size = New Size(100, 32)
+        btnConnect.TabIndex = 3
+        btnConnect.Text = "Connect"
+        btnConnect.UseVisualStyleBackColor = False
+        ' 
+        ' TableLayoutPanel1
+        ' 
+        TableLayoutPanel1.BackColor = Color.White
+        TableLayoutPanel1.ColumnCount = 1
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle())
+        TableLayoutPanel1.Controls.Add(statusStrip, 0, 3)
+        TableLayoutPanel1.Controls.Add(TableLayoutPanel2, 0, 0)
+        TableLayoutPanel1.Controls.Add(Panel1, 0, 1)
+        TableLayoutPanel1.Controls.Add(Panel2, 0, 2)
+        TableLayoutPanel1.Dock = DockStyle.Fill
+        TableLayoutPanel1.Location = New Point(0, 0)
+        TableLayoutPanel1.Name = "TableLayoutPanel1"
+        TableLayoutPanel1.RowCount = 4
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 45F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 58.82353F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 41.17647F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle())
+        TableLayoutPanel1.Size = New Size(759, 321)
+        TableLayoutPanel1.TabIndex = 18
+        ' 
+        ' statusStrip
+        ' 
+        statusStrip.BackColor = Color.White
+        statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
+        statusStrip.Location = New Point(0, 299)
+        statusStrip.Name = "statusStrip"
+        statusStrip.Size = New Size(759, 22)
+        statusStrip.TabIndex = 6
+        statusStrip.Text = "StatusStrip1"
+        ' 
+        ' toolStatus
+        ' 
+        toolStatus.ForeColor = SystemColors.GrayText
+        toolStatus.Name = "toolStatus"
+        toolStatus.Size = New Size(744, 17)
+        toolStatus.Spring = True
+        toolStatus.Text = "Ready"
+        ' 
+        ' TableLayoutPanel2
+        ' 
+        TableLayoutPanel2.BackColor = Color.White
+        TableLayoutPanel2.ColumnCount = 2
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle())
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        TableLayoutPanel2.Controls.Add(cboProfile, 1, 0)
+        TableLayoutPanel2.Controls.Add(lblProfile, 0, 0)
+        TableLayoutPanel2.Dock = DockStyle.Fill
+        TableLayoutPanel2.Location = New Point(3, 3)
+        TableLayoutPanel2.Name = "TableLayoutPanel2"
+        TableLayoutPanel2.Padding = New Padding(10, 6, 10, 0)
+        TableLayoutPanel2.RowCount = 1
+        TableLayoutPanel2.RowStyles.Add(New RowStyle())
+        TableLayoutPanel2.Size = New Size(753, 39)
+        TableLayoutPanel2.TabIndex = 18
+        ' 
+        ' Panel1
+        ' 
+        Panel1.BackColor = Color.White
+        Panel1.Controls.Add(TableLayoutPanel3)
+        Panel1.Controls.Add(chkRememberCreds)
+        Panel1.Controls.Add(Label1)
+        Panel1.Dock = DockStyle.Fill
+        Panel1.Location = New Point(3, 48)
+        Panel1.Name = "Panel1"
+        Panel1.Padding = New Padding(10)
+        Panel1.Size = New Size(753, 143)
+        Panel1.TabIndex = 15
+        ' 
+        ' TableLayoutPanel3
+        ' 
+        TableLayoutPanel3.AutoSize = True
+        TableLayoutPanel3.AutoSizeMode = AutoSizeMode.GrowAndShrink
+        TableLayoutPanel3.ColumnCount = 2
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle())
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        TableLayoutPanel3.Controls.Add(lblDomain, 0, 0)
+        TableLayoutPanel3.Controls.Add(txtDomain, 1, 0)
+        TableLayoutPanel3.Controls.Add(txtPassword, 1, 2)
+        TableLayoutPanel3.Controls.Add(lblUsername, 0, 1)
+        TableLayoutPanel3.Controls.Add(lblPassword, 0, 2)
+        TableLayoutPanel3.Controls.Add(txtUser, 1, 1)
+        TableLayoutPanel3.Dock = DockStyle.Top
+        TableLayoutPanel3.Location = New Point(10, 48)
+        TableLayoutPanel3.Margin = New Padding(0)
+        TableLayoutPanel3.Name = "TableLayoutPanel3"
+        TableLayoutPanel3.RowCount = 3
+        TableLayoutPanel3.RowStyles.Add(New RowStyle())
+        TableLayoutPanel3.RowStyles.Add(New RowStyle())
+        TableLayoutPanel3.RowStyles.Add(New RowStyle())
+        TableLayoutPanel3.Size = New Size(733, 81)
+        TableLayoutPanel3.TabIndex = 1
+        ' 
+        ' lblDomain
+        ' 
+        lblDomain.AutoSize = True
+        lblDomain.Font = New Font("Segoe UI", 12F)
+        lblDomain.Location = New Point(0, 2)
+        lblDomain.Margin = New Padding(0, 2, 8, 2)
+        lblDomain.Name = "lblDomain"
+        lblDomain.Size = New Size(65, 21)
+        lblDomain.TabIndex = 12
+        lblDomain.Text = "Domain"
+        lblDomain.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' txtDomain
+        ' 
+        txtDomain.BackColor = Color.WhiteSmoke
+        txtDomain.Dock = DockStyle.Fill
+        txtDomain.Font = New Font("Segoe UI", 9F)
+        txtDomain.Location = New Point(89, 2)
+        txtDomain.Margin = New Padding(0, 2, 0, 2)
+        txtDomain.Name = "txtDomain"
+        txtDomain.Size = New Size(644, 23)
+        txtDomain.TabIndex = 9
+        ' 
+        ' txtPassword
+        ' 
+        txtPassword.BackColor = Color.WhiteSmoke
+        txtPassword.Dock = DockStyle.Fill
+        txtPassword.Font = New Font("Segoe UI", 9F)
+        txtPassword.Location = New Point(89, 56)
+        txtPassword.Margin = New Padding(0, 2, 0, 2)
+        txtPassword.Name = "txtPassword"
+        txtPassword.Size = New Size(644, 23)
+        txtPassword.TabIndex = 2
+        txtPassword.UseSystemPasswordChar = True
+        ' 
+        ' lblUsername
+        ' 
+        lblUsername.AutoSize = True
+        lblUsername.Font = New Font("Segoe UI", 12F)
+        lblUsername.Location = New Point(0, 29)
+        lblUsername.Margin = New Padding(0, 2, 8, 2)
+        lblUsername.Name = "lblUsername"
+        lblUsername.Size = New Size(81, 21)
+        lblUsername.TabIndex = 13
+        lblUsername.Text = "Username"
+        lblUsername.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblPassword
+        ' 
+        lblPassword.AutoSize = True
+        lblPassword.Font = New Font("Segoe UI", 12F)
+        lblPassword.Location = New Point(0, 56)
+        lblPassword.Margin = New Padding(0, 2, 8, 2)
+        lblPassword.Name = "lblPassword"
+        lblPassword.Size = New Size(76, 21)
+        lblPassword.TabIndex = 14
+        lblPassword.Text = "Password"
+        lblPassword.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' txtUser
+        ' 
+        txtUser.BackColor = Color.WhiteSmoke
+        txtUser.Dock = DockStyle.Fill
+        txtUser.Font = New Font("Segoe UI", 9F)
+        txtUser.Location = New Point(89, 29)
+        txtUser.Margin = New Padding(0, 2, 0, 2)
+        txtUser.Name = "txtUser"
+        txtUser.Size = New Size(644, 23)
+        txtUser.TabIndex = 1
+        ' 
+        ' chkRememberCreds
+        ' 
+        chkRememberCreds.AutoSize = True
+        chkRememberCreds.BackColor = Color.Transparent
+        chkRememberCreds.Dock = DockStyle.Top
+        chkRememberCreds.Font = New Font("Segoe UI", 9F)
+        chkRememberCreds.Location = New Point(10, 29)
+        chkRememberCreds.Margin = New Padding(0, 8, 0, 0)
+        chkRememberCreds.Name = "chkRememberCreds"
+        chkRememberCreds.Size = New Size(733, 19)
+        chkRememberCreds.TabIndex = 7
+        chkRememberCreds.Text = "Remember credentials"
+        chkRememberCreds.UseVisualStyleBackColor = False
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Dock = DockStyle.Top
+        Label1.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        Label1.Location = New Point(10, 10)
+        Label1.Margin = New Padding(0, 0, 0, 4)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(84, 19)
+        Label1.TabIndex = 0
+        Label1.Text = "Credentials"
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.White
+        Panel2.Controls.Add(FlowLayoutPanel1)
+        Panel2.Controls.Add(Label2)
+        Panel2.Dock = DockStyle.Fill
+        Panel2.Location = New Point(0, 204)
+        Panel2.Margin = New Padding(0, 10, 0, 0)
+        Panel2.Name = "Panel2"
+        Panel2.Padding = New Padding(10)
+        Panel2.Size = New Size(759, 94)
+        Panel2.TabIndex = 19
+        ' 
+        ' FlowLayoutPanel1
+        ' 
+        FlowLayoutPanel1.AutoSize = True
+        FlowLayoutPanel1.Controls.Add(chkDeleteCreds)
+        FlowLayoutPanel1.Controls.Add(btnConnect)
+        FlowLayoutPanel1.Controls.Add(btnDisconnect)
+        FlowLayoutPanel1.Controls.Add(btnAdmin)
+        FlowLayoutPanel1.Dock = DockStyle.Top
+        FlowLayoutPanel1.Location = New Point(10, 29)
+        FlowLayoutPanel1.Margin = New Padding(0)
+        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        FlowLayoutPanel1.Size = New Size(739, 32)
+        FlowLayoutPanel1.TabIndex = 1
+        FlowLayoutPanel1.WrapContents = False
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Dock = DockStyle.Top
+        Label2.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        Label2.Location = New Point(10, 10)
+        Label2.Margin = New Padding(0, 0, 0, 4)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(58, 19)
+        Label2.TabIndex = 0
+        Label2.Text = "Actions"
         ' 
         ' MainForm
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
-        AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(504, 291)
-        Controls.Add(grpActions)
-        Controls.Add(grpCredentials)
+        AcceptButton = btnConnect
+        AutoScaleDimensions = New SizeF(96F, 96F)
+        AutoScaleMode = AutoScaleMode.Dpi
+        BackColor = SystemColors.AppWorkspace
+        ClientSize = New Size(759, 321)
         Controls.Add(lblActions)
         Controls.Add(lblCredentials)
-        Controls.Add(lblProfile)
-        Controls.Add(statusStrip)
-        Controls.Add(cboProfile)
+        Controls.Add(TableLayoutPanel1)
         FormBorderStyle = FormBorderStyle.FixedDialog
-        MinimumSize = New Size(520, 330)
+        MaximizeBox = False
+        MinimumSize = New Size(600, 360)
         Name = "MainForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "DriveMapper"
+        TableLayoutPanel1.ResumeLayout(False)
+        TableLayoutPanel1.PerformLayout()
         statusStrip.ResumeLayout(False)
         statusStrip.PerformLayout()
-        grpCredentials.ResumeLayout(False)
-        grpCredentials.PerformLayout()
-        grpActions.ResumeLayout(False)
-        grpActions.PerformLayout()
+        TableLayoutPanel2.ResumeLayout(False)
+        TableLayoutPanel2.PerformLayout()
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
+        TableLayoutPanel3.ResumeLayout(False)
+        TableLayoutPanel3.PerformLayout()
+        Panel2.ResumeLayout(False)
+        Panel2.PerformLayout()
+        FlowLayoutPanel1.ResumeLayout(False)
+        FlowLayoutPanel1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
     Friend WithEvents cboProfile As ComboBox
-    Friend WithEvents txtUser As TextBox
-    Friend WithEvents txtPassword As TextBox
+    Friend WithEvents lblProfile As Label
+    Friend WithEvents lblCredentials As Label
+    Friend WithEvents lblActions As Label
+    Friend WithEvents miniToolStrip As StatusStrip
     Friend WithEvents btnConnect As Button
     Friend WithEvents btnDisconnect As Button
     Friend WithEvents btnAdmin As Button
-    Friend WithEvents chkRememberCreds As CheckBox
     Friend WithEvents chkDeleteCreds As CheckBox
-    Friend WithEvents toolStatus As ToolStripStatusLabel
-    Friend WithEvents statusStrip As StatusStrip
-    Friend WithEvents txtDomain As TextBox
-    Friend WithEvents lblProfile As Label
-    Friend WithEvents lblCredentials As Label
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents lblDomain As Label
+    Friend WithEvents txtDomain As TextBox
+    Friend WithEvents txtPassword As TextBox
     Friend WithEvents lblUsername As Label
     Friend WithEvents lblPassword As Label
-    Friend WithEvents lblActions As Label
-    Friend WithEvents grpCredentials As GroupBox
-    Friend WithEvents grpActions As GroupBox
+    Friend WithEvents txtUser As TextBox
+    Friend WithEvents chkRememberCreds As CheckBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
+    Friend WithEvents Label2 As Label
+    Friend WithEvents statusStrip As StatusStrip
+    Friend WithEvents toolStatus As ToolStripStatusLabel
 End Class
