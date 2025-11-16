@@ -85,12 +85,13 @@ Public Class MainForm
 
             Dim hasPersistentCredential = useSavedCredential AndAlso savedCredential.HasValue
             Dim persist = useCredentialManager AndAlso (hasPersistentCredential OrElse rememberCredential)
+            Logger.Info($"Attempting to map profile '{profile.Name}' to drive {profile.DriveLetter}.")
             Dim result = NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist)
 
             If result.Success Then
                 Dim statusMessage = $"{result.Message} as {identityDisplay}"
                 UpdateStatus(statusMessage)
-                Logger.Info(statusMessage)
+                Logger.Info($"Successfully mapped profile '{profile.Name}' to drive {profile.DriveLetter}.")
 
                 _lastCredentialKeyByProfile(profile.Name) = credentialTarget
 
@@ -108,7 +109,7 @@ Public Class MainForm
                 Dim errorMessage = $"{result.Message} (code {result.Code})"
                 Dim statusMessage = $"{result.Message} as {identityDisplay}"
                 UpdateStatus(statusMessage)
-                Logger.Error($"Failed to map {profile.Name} as {identityDisplay}: {errorMessage}")
+                Logger.Error($"Failed to map profile '{profile.Name}' (drive {profile.DriveLetter}): {errorMessage}")
                 RefreshCredentialUiState()
             End If
         Catch ex As Exception
