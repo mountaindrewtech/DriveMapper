@@ -2,7 +2,7 @@
 *A lightweight Windows utility for secure, one-click network drive connections.*
 
 *CURRENTLY IN DEVELOPMENT*
-<img width="1002" height="676" alt="DriveMapper" src="https://github.com/user-attachments/assets/19abbbe9-bc8d-4018-863f-1b7a5253be5d" />
+<img width="1067" height="671" alt="Screenshot 2025-11-16 011253" src="https://github.com/user-attachments/assets/c1b95ef7-022f-497a-bb2f-e1943fa1535f" />
 ---
 
 ## 🧭 Overview
