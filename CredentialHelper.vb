@@ -93,6 +93,28 @@ Public Class CredentialHelper
         End Try
     End Sub
 
+    Public Shared Function CredentialExists(target As String) As Boolean
+        Dim formattedTarget = BuildTargetName(target)
+        Dim credPtr As IntPtr = IntPtr.Zero
+
+        Try
+            If CredRead(formattedTarget, CRED_TYPE_GENERIC, 0, credPtr) Then
+                Return True
+            End If
+
+            Dim errorCode = Marshal.GetLastWin32Error()
+            If errorCode = ERROR_NOT_FOUND Then
+                Return False
+            End If
+
+            Throw New Win32Exception(errorCode, "Failed to inspect credential.")
+        Finally
+            If credPtr <> IntPtr.Zero Then
+                CredFree(credPtr)
+            End If
+        End Try
+    End Function
+
     Public Shared Function ReadCredential(target As String) As (User As String, Password As String)?
         Dim formattedTarget = BuildTargetName(target)
         Dim credPtr As IntPtr = IntPtr.Zero

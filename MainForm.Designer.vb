@@ -31,7 +31,10 @@ Partial Class MainForm
         lblCredentials = New Label()
         lblActions = New Label()
         miniToolStrip = New StatusStrip()
-        chkDeleteCreds = New CheckBox()
+        FlowLayoutPanelCredentialOptions = New FlowLayoutPanel()
+        chkUseSavedCredential = New CheckBox()
+        chkRememberCredential = New CheckBox()
+        btnDeleteSavedCredential = New Button()
         btnAdmin = New Button()
         btnDisconnect = New Button()
         btnConnect = New Button()
@@ -47,11 +50,11 @@ Partial Class MainForm
         lblUsername = New Label()
         lblPassword = New Label()
         txtUser = New TextBox()
-        chkRememberCreds = New CheckBox()
         Label1 = New Label()
         Panel2 = New Panel()
         FlowLayoutPanel1 = New FlowLayoutPanel()
         Label2 = New Label()
+        FlowLayoutPanelCredentialOptions.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         statusStrip.SuspendLayout()
         TableLayoutPanel2.SuspendLayout()
@@ -117,18 +120,59 @@ Partial Class MainForm
         miniToolStrip.Size = New Size(860, 22)
         miniToolStrip.TabIndex = 6
         ' 
-        ' chkDeleteCreds
+        ' FlowLayoutPanelCredentialOptions
         ' 
-        chkDeleteCreds.AutoSize = True
-        chkDeleteCreds.BackColor = Color.Transparent
-        chkDeleteCreds.Font = New Font("Segoe UI", 9F)
-        chkDeleteCreds.Location = New Point(0, 0)
-        chkDeleteCreds.Margin = New Padding(0, 0, 0, 8)
-        chkDeleteCreds.Name = "chkDeleteCreds"
-        chkDeleteCreds.Size = New Size(153, 19)
-        chkDeleteCreds.TabIndex = 8
-        chkDeleteCreds.Text = "Delete existing mapping"
-        chkDeleteCreds.UseVisualStyleBackColor = False
+        FlowLayoutPanelCredentialOptions.AutoSize = True
+        FlowLayoutPanelCredentialOptions.Controls.Add(chkUseSavedCredential)
+        FlowLayoutPanelCredentialOptions.Controls.Add(chkRememberCredential)
+        FlowLayoutPanelCredentialOptions.Controls.Add(btnDeleteSavedCredential)
+        FlowLayoutPanelCredentialOptions.Dock = DockStyle.Bottom
+        FlowLayoutPanelCredentialOptions.Location = New Point(10, 109)
+        FlowLayoutPanelCredentialOptions.Margin = New Padding(0, 8, 0, 0)
+        FlowLayoutPanelCredentialOptions.Name = "FlowLayoutPanelCredentialOptions"
+        FlowLayoutPanelCredentialOptions.Padding = New Padding(0, 4, 0, 0)
+        FlowLayoutPanelCredentialOptions.Size = New Size(752, 31)
+        FlowLayoutPanelCredentialOptions.TabIndex = 2
+        FlowLayoutPanelCredentialOptions.WrapContents = False
+        ' 
+        ' chkUseSavedCredential
+        ' 
+        chkUseSavedCredential.AutoSize = True
+        chkUseSavedCredential.Font = New Font("Segoe UI", 9F)
+        chkUseSavedCredential.Location = New Point(0, 4)
+        chkUseSavedCredential.Margin = New Padding(0, 0, 16, 0)
+        chkUseSavedCredential.Name = "chkUseSavedCredential"
+        chkUseSavedCredential.Size = New Size(133, 19)
+        chkUseSavedCredential.TabIndex = 0
+        chkUseSavedCredential.Text = "Use saved credential"
+        chkUseSavedCredential.UseVisualStyleBackColor = True
+        ' 
+        ' chkRememberCredential
+        ' 
+        chkRememberCredential.AutoSize = True
+        chkRememberCredential.Font = New Font("Segoe UI", 9F)
+        chkRememberCredential.Location = New Point(149, 4)
+        chkRememberCredential.Margin = New Padding(0, 0, 16, 0)
+        chkRememberCredential.Name = "chkRememberCredential"
+        chkRememberCredential.Size = New Size(179, 19)
+        chkRememberCredential.TabIndex = 1
+        chkRememberCredential.Text = "Save credential for future use"
+        chkRememberCredential.UseVisualStyleBackColor = True
+        ' 
+        ' btnDeleteSavedCredential
+        ' 
+        btnDeleteSavedCredential.AutoSize = True
+        btnDeleteSavedCredential.BackColor = Color.White
+        btnDeleteSavedCredential.Enabled = False
+        btnDeleteSavedCredential.FlatStyle = FlatStyle.Flat
+        btnDeleteSavedCredential.Font = New Font("Segoe UI", 9F)
+        btnDeleteSavedCredential.Location = New Point(344, 4)
+        btnDeleteSavedCredential.Margin = New Padding(0)
+        btnDeleteSavedCredential.Name = "btnDeleteSavedCredential"
+        btnDeleteSavedCredential.Size = New Size(164, 27)
+        btnDeleteSavedCredential.TabIndex = 2
+        btnDeleteSavedCredential.Text = "Delete saved credential"
+        btnDeleteSavedCredential.UseVisualStyleBackColor = False
         ' 
         ' btnAdmin
         ' 
@@ -136,7 +180,7 @@ Partial Class MainForm
         btnAdmin.BackColor = Color.White
         btnAdmin.FlatStyle = FlatStyle.Flat
         btnAdmin.Font = New Font("Segoe UI", 9F)
-        btnAdmin.Location = New Point(391, 0)
+        btnAdmin.Location = New Point(238, 0)
         btnAdmin.Margin = New Padding(4, 0, 8, 0)
         btnAdmin.Name = "btnAdmin"
         btnAdmin.Padding = New Padding(8, 0, 8, 0)
@@ -151,7 +195,7 @@ Partial Class MainForm
         btnDisconnect.BackColor = Color.White
         btnDisconnect.FlatStyle = FlatStyle.Flat
         btnDisconnect.Font = New Font("Segoe UI", 9F)
-        btnDisconnect.Location = New Point(269, 0)
+        btnDisconnect.Location = New Point(116, 0)
         btnDisconnect.Margin = New Padding(4, 0, 8, 0)
         btnDisconnect.Name = "btnDisconnect"
         btnDisconnect.Padding = New Padding(8, 0, 8, 0)
@@ -168,7 +212,7 @@ Partial Class MainForm
         btnConnect.FlatStyle = FlatStyle.Flat
         btnConnect.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnConnect.ForeColor = Color.White
-        btnConnect.Location = New Point(157, 0)
+        btnConnect.Location = New Point(4, 0)
         btnConnect.Margin = New Padding(4, 0, 8, 0)
         btnConnect.Name = "btnConnect"
         btnConnect.Padding = New Padding(8, 0, 8, 0)
@@ -194,14 +238,14 @@ Partial Class MainForm
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 58.82353F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 41.17647F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle())
-        TableLayoutPanel1.Size = New Size(778, 321)
+        TableLayoutPanel1.Size = New Size(778, 333)
         TableLayoutPanel1.TabIndex = 18
         ' 
         ' statusStrip
         ' 
         statusStrip.BackColor = Color.White
         statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
-        statusStrip.Location = New Point(0, 299)
+        statusStrip.Location = New Point(0, 311)
         statusStrip.Name = "statusStrip"
         statusStrip.Size = New Size(778, 22)
         statusStrip.TabIndex = 6
@@ -236,13 +280,13 @@ Partial Class MainForm
         ' 
         Panel1.BackColor = Color.White
         Panel1.Controls.Add(TableLayoutPanel3)
-        Panel1.Controls.Add(chkRememberCreds)
+        Panel1.Controls.Add(FlowLayoutPanelCredentialOptions)
         Panel1.Controls.Add(Label1)
         Panel1.Dock = DockStyle.Fill
         Panel1.Location = New Point(3, 48)
         Panel1.Name = "Panel1"
         Panel1.Padding = New Padding(10)
-        Panel1.Size = New Size(772, 143)
+        Panel1.Size = New Size(772, 150)
         Panel1.TabIndex = 15
         ' 
         ' TableLayoutPanel3
@@ -339,20 +383,6 @@ Partial Class MainForm
         txtUser.Size = New Size(663, 23)
         txtUser.TabIndex = 1
         ' 
-        ' chkRememberCreds
-        ' 
-        chkRememberCreds.AutoSize = True
-        chkRememberCreds.BackColor = Color.Transparent
-        chkRememberCreds.Dock = DockStyle.Bottom
-        chkRememberCreds.Font = New Font("Segoe UI", 9F)
-        chkRememberCreds.Location = New Point(10, 114)
-        chkRememberCreds.Margin = New Padding(0, 8, 0, 0)
-        chkRememberCreds.Name = "chkRememberCreds"
-        chkRememberCreds.Size = New Size(752, 19)
-        chkRememberCreds.TabIndex = 7
-        chkRememberCreds.Text = "Remember credentials"
-        chkRememberCreds.UseVisualStyleBackColor = False
-        ' 
         ' Label1
         ' 
         Label1.AutoSize = True
@@ -371,18 +401,17 @@ Partial Class MainForm
         Panel2.Controls.Add(FlowLayoutPanel1)
         Panel2.Controls.Add(Label2)
         Panel2.Dock = DockStyle.Fill
-        Panel2.Location = New Point(0, 204)
+        Panel2.Location = New Point(0, 211)
         Panel2.Margin = New Padding(0, 10, 0, 0)
         Panel2.Name = "Panel2"
         Panel2.Padding = New Padding(10)
-        Panel2.Size = New Size(778, 94)
+        Panel2.Size = New Size(778, 99)
         Panel2.TabIndex = 19
         ' 
         ' FlowLayoutPanel1
         ' 
         FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         FlowLayoutPanel1.AutoSize = True
-        FlowLayoutPanel1.Controls.Add(chkDeleteCreds)
         FlowLayoutPanel1.Controls.Add(btnConnect)
         FlowLayoutPanel1.Controls.Add(btnDisconnect)
         FlowLayoutPanel1.Controls.Add(btnAdmin)
@@ -411,7 +440,7 @@ Partial Class MainForm
         AutoScaleDimensions = New SizeF(96F, 96F)
         AutoScaleMode = AutoScaleMode.Dpi
         BackColor = SystemColors.AppWorkspace
-        ClientSize = New Size(778, 321)
+        ClientSize = New Size(778, 333)
         Controls.Add(lblActions)
         Controls.Add(lblCredentials)
         Controls.Add(TableLayoutPanel1)
@@ -421,6 +450,8 @@ Partial Class MainForm
         Name = "MainForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "DriveMapper"
+        FlowLayoutPanelCredentialOptions.ResumeLayout(False)
+        FlowLayoutPanelCredentialOptions.PerformLayout()
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
         statusStrip.ResumeLayout(False)
@@ -434,7 +465,6 @@ Partial Class MainForm
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
         FlowLayoutPanel1.ResumeLayout(False)
-        FlowLayoutPanel1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -447,7 +477,10 @@ Partial Class MainForm
     Friend WithEvents btnConnect As Button
     Friend WithEvents btnDisconnect As Button
     Friend WithEvents btnAdmin As Button
-    Friend WithEvents chkDeleteCreds As CheckBox
+    Friend WithEvents FlowLayoutPanelCredentialOptions As FlowLayoutPanel
+    Friend WithEvents chkUseSavedCredential As CheckBox
+    Friend WithEvents chkRememberCredential As CheckBox
+    Friend WithEvents btnDeleteSavedCredential As Button
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
     Friend WithEvents Panel1 As Panel
@@ -458,7 +491,6 @@ Partial Class MainForm
     Friend WithEvents lblUsername As Label
     Friend WithEvents lblPassword As Label
     Friend WithEvents txtUser As TextBox
-    Friend WithEvents chkRememberCreds As CheckBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Panel2 As Panel
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
