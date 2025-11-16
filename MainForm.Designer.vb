@@ -63,11 +63,11 @@ Partial Class MainForm
         ' 
         ' cboProfile
         ' 
-        cboProfile.BackColor = Color.WhiteSmoke
+        cboProfile.BackColor = Color.Gainsboro
         cboProfile.Dock = DockStyle.Fill
         cboProfile.DropDownHeight = 120
         cboProfile.DropDownStyle = ComboBoxStyle.DropDownList
-        cboProfile.FlatStyle = FlatStyle.Popup
+        cboProfile.FlatStyle = FlatStyle.Flat
         cboProfile.Font = New Font("Segoe UI", 12F)
         cboProfile.ForeColor = Color.Black
         cboProfile.FormattingEnabled = True
@@ -75,7 +75,7 @@ Partial Class MainForm
         cboProfile.Location = New Point(59, 6)
         cboProfile.Margin = New Padding(0)
         cboProfile.Name = "cboProfile"
-        cboProfile.Size = New Size(684, 29)
+        cboProfile.Size = New Size(703, 29)
         cboProfile.TabIndex = 0
         ' 
         ' lblProfile
@@ -164,9 +164,10 @@ Partial Class MainForm
         ' 
         btnConnect.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnConnect.BackColor = SystemColors.Highlight
+        btnConnect.FlatAppearance.BorderSize = 0
         btnConnect.FlatStyle = FlatStyle.Flat
         btnConnect.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        btnConnect.ForeColor = Color.Gainsboro
+        btnConnect.ForeColor = Color.White
         btnConnect.Location = New Point(157, 0)
         btnConnect.Margin = New Padding(4, 0, 8, 0)
         btnConnect.Name = "btnConnect"
@@ -193,7 +194,7 @@ Partial Class MainForm
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 58.82353F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 41.17647F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle())
-        TableLayoutPanel1.Size = New Size(759, 321)
+        TableLayoutPanel1.Size = New Size(778, 321)
         TableLayoutPanel1.TabIndex = 18
         ' 
         ' statusStrip
@@ -202,7 +203,7 @@ Partial Class MainForm
         statusStrip.Items.AddRange(New ToolStripItem() {toolStatus})
         statusStrip.Location = New Point(0, 299)
         statusStrip.Name = "statusStrip"
-        statusStrip.Size = New Size(759, 22)
+        statusStrip.Size = New Size(778, 22)
         statusStrip.TabIndex = 6
         statusStrip.Text = "StatusStrip1"
         ' 
@@ -210,7 +211,7 @@ Partial Class MainForm
         ' 
         toolStatus.ForeColor = SystemColors.GrayText
         toolStatus.Name = "toolStatus"
-        toolStatus.Size = New Size(744, 17)
+        toolStatus.Size = New Size(763, 17)
         toolStatus.Spring = True
         toolStatus.Text = "Ready"
         ' 
@@ -228,7 +229,7 @@ Partial Class MainForm
         TableLayoutPanel2.Padding = New Padding(10, 6, 10, 0)
         TableLayoutPanel2.RowCount = 1
         TableLayoutPanel2.RowStyles.Add(New RowStyle())
-        TableLayoutPanel2.Size = New Size(753, 39)
+        TableLayoutPanel2.Size = New Size(772, 39)
         TableLayoutPanel2.TabIndex = 18
         ' 
         ' Panel1
@@ -241,7 +242,7 @@ Partial Class MainForm
         Panel1.Location = New Point(3, 48)
         Panel1.Name = "Panel1"
         Panel1.Padding = New Padding(10)
-        Panel1.Size = New Size(753, 143)
+        Panel1.Size = New Size(772, 143)
         Panel1.TabIndex = 15
         ' 
         ' TableLayoutPanel3
@@ -258,14 +259,14 @@ Partial Class MainForm
         TableLayoutPanel3.Controls.Add(lblPassword, 0, 2)
         TableLayoutPanel3.Controls.Add(txtUser, 1, 1)
         TableLayoutPanel3.Dock = DockStyle.Top
-        TableLayoutPanel3.Location = New Point(10, 48)
+        TableLayoutPanel3.Location = New Point(10, 29)
         TableLayoutPanel3.Margin = New Padding(0)
         TableLayoutPanel3.Name = "TableLayoutPanel3"
         TableLayoutPanel3.RowCount = 3
         TableLayoutPanel3.RowStyles.Add(New RowStyle())
         TableLayoutPanel3.RowStyles.Add(New RowStyle())
         TableLayoutPanel3.RowStyles.Add(New RowStyle())
-        TableLayoutPanel3.Size = New Size(733, 81)
+        TableLayoutPanel3.Size = New Size(752, 81)
         TableLayoutPanel3.TabIndex = 1
         ' 
         ' lblDomain
@@ -282,24 +283,24 @@ Partial Class MainForm
         ' 
         ' txtDomain
         ' 
+        txtDomain.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         txtDomain.BackColor = Color.WhiteSmoke
-        txtDomain.Dock = DockStyle.Fill
         txtDomain.Font = New Font("Segoe UI", 9F)
         txtDomain.Location = New Point(89, 2)
         txtDomain.Margin = New Padding(0, 2, 0, 2)
         txtDomain.Name = "txtDomain"
-        txtDomain.Size = New Size(644, 23)
+        txtDomain.Size = New Size(663, 23)
         txtDomain.TabIndex = 9
         ' 
         ' txtPassword
         ' 
+        txtPassword.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         txtPassword.BackColor = Color.WhiteSmoke
-        txtPassword.Dock = DockStyle.Fill
         txtPassword.Font = New Font("Segoe UI", 9F)
         txtPassword.Location = New Point(89, 56)
         txtPassword.Margin = New Padding(0, 2, 0, 2)
         txtPassword.Name = "txtPassword"
-        txtPassword.Size = New Size(644, 23)
+        txtPassword.Size = New Size(663, 23)
         txtPassword.TabIndex = 2
         txtPassword.UseSystemPasswordChar = True
         ' 
@@ -329,25 +330,25 @@ Partial Class MainForm
         ' 
         ' txtUser
         ' 
+        txtUser.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         txtUser.BackColor = Color.WhiteSmoke
-        txtUser.Dock = DockStyle.Fill
         txtUser.Font = New Font("Segoe UI", 9F)
         txtUser.Location = New Point(89, 29)
         txtUser.Margin = New Padding(0, 2, 0, 2)
         txtUser.Name = "txtUser"
-        txtUser.Size = New Size(644, 23)
+        txtUser.Size = New Size(663, 23)
         txtUser.TabIndex = 1
         ' 
         ' chkRememberCreds
         ' 
         chkRememberCreds.AutoSize = True
         chkRememberCreds.BackColor = Color.Transparent
-        chkRememberCreds.Dock = DockStyle.Top
+        chkRememberCreds.Dock = DockStyle.Bottom
         chkRememberCreds.Font = New Font("Segoe UI", 9F)
-        chkRememberCreds.Location = New Point(10, 29)
+        chkRememberCreds.Location = New Point(10, 114)
         chkRememberCreds.Margin = New Padding(0, 8, 0, 0)
         chkRememberCreds.Name = "chkRememberCreds"
-        chkRememberCreds.Size = New Size(733, 19)
+        chkRememberCreds.Size = New Size(752, 19)
         chkRememberCreds.TabIndex = 7
         chkRememberCreds.Text = "Remember credentials"
         chkRememberCreds.UseVisualStyleBackColor = False
@@ -374,21 +375,21 @@ Partial Class MainForm
         Panel2.Margin = New Padding(0, 10, 0, 0)
         Panel2.Name = "Panel2"
         Panel2.Padding = New Padding(10)
-        Panel2.Size = New Size(759, 94)
+        Panel2.Size = New Size(778, 94)
         Panel2.TabIndex = 19
         ' 
         ' FlowLayoutPanel1
         ' 
+        FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         FlowLayoutPanel1.AutoSize = True
         FlowLayoutPanel1.Controls.Add(chkDeleteCreds)
         FlowLayoutPanel1.Controls.Add(btnConnect)
         FlowLayoutPanel1.Controls.Add(btnDisconnect)
         FlowLayoutPanel1.Controls.Add(btnAdmin)
-        FlowLayoutPanel1.Dock = DockStyle.Top
         FlowLayoutPanel1.Location = New Point(10, 29)
         FlowLayoutPanel1.Margin = New Padding(0)
         FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        FlowLayoutPanel1.Size = New Size(739, 32)
+        FlowLayoutPanel1.Size = New Size(765, 32)
         FlowLayoutPanel1.TabIndex = 1
         FlowLayoutPanel1.WrapContents = False
         ' 
@@ -410,7 +411,7 @@ Partial Class MainForm
         AutoScaleDimensions = New SizeF(96F, 96F)
         AutoScaleMode = AutoScaleMode.Dpi
         BackColor = SystemColors.AppWorkspace
-        ClientSize = New Size(759, 321)
+        ClientSize = New Size(778, 321)
         Controls.Add(lblActions)
         Controls.Add(lblCredentials)
         Controls.Add(TableLayoutPanel1)
