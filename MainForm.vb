@@ -3,6 +3,7 @@
 ' See LICENSE for details.
 
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Public Class MainForm
     Private _profiles As List(Of ProfilesStore.Profile) = New List(Of ProfilesStore.Profile)()
@@ -42,7 +43,7 @@ Public Class MainForm
         End Using
     End Sub
 
-    Private Sub btnConnect_Click(sender As Object, e As EventArgs) Handles btnConnect.Click
+    Private Async Sub btnConnect_Click(sender As Object, e As EventArgs) Handles btnConnect.Click
         Dim profile = GetSelectedProfile()
         If profile Is Nothing Then
             UpdateStatus("Select a profile first.")
@@ -56,6 +57,19 @@ Public Class MainForm
             UpdateStatus("Profile validation failed.")
             Return
         End If
+
+        Dim connectEnabled = btnConnect.Enabled
+        Dim disconnectEnabled = btnDisconnect.Enabled
+        Dim profileSelectorEnabled = cboProfile.Enabled
+        Dim adminEnabled = btnAdmin.Enabled
+
+        btnConnect.Enabled = False
+        btnDisconnect.Enabled = False
+        cboProfile.Enabled = False
+        btnAdmin.Enabled = False
+        UpdateStatus("Connecting...")
+
+        Dim refreshWithSelection = False
 
         Try
             Dim effectiveDomain = GetEffectiveDomain()
@@ -93,7 +107,7 @@ Public Class MainForm
             Dim hasPersistentCredential = useSavedCredential AndAlso savedCredential.HasValue
             Dim persist = useCredentialManager AndAlso (hasPersistentCredential OrElse rememberCredential)
             Logger.Info($"Attempting to map profile '{profile.Name}' to drive {profile.DriveLetter}.")
-            Dim result = NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist)
+            Dim result = Await Task.Run(Function() NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist))
 
             If result.Success Then
                 Dim statusMessage = $"{result.Message} as {identityDisplay}"
@@ -111,22 +125,28 @@ Public Class MainForm
                     End Try
                 End If
 
-                RefreshCredentialUiState(True)
+                refreshWithSelection = True
             Else
                 Dim errorMessage = $"{result.Message} (code {result.Code})"
                 Dim statusMessage = $"{result.Message} as {identityDisplay}"
                 UpdateStatus(statusMessage)
                 Logger.Error($"Failed to map profile '{profile.Name}' (drive {profile.DriveLetter}): {errorMessage}")
-                RefreshCredentialUiState()
+                refreshWithSelection = False
             End If
         Catch ex As Exception
             UpdateStatus("Error connecting.")
             Logger.Error($"Unhandled connect error: {ex}")
-            RefreshCredentialUiState()
+            MessageBox.Show(Me, "Failed to connect. Check your profile settings or contact your administrator.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            btnConnect.Enabled = connectEnabled
+            btnDisconnect.Enabled = disconnectEnabled
+            cboProfile.Enabled = profileSelectorEnabled
+            btnAdmin.Enabled = adminEnabled
+            RefreshCredentialUiState(refreshWithSelection)
         End Try
     End Sub
 
-    Private Sub btnDisconnect_Click(sender As Object, e As EventArgs) Handles btnDisconnect.Click
+    Private Async Sub btnDisconnect_Click(sender As Object, e As EventArgs) Handles btnDisconnect.Click
         Dim profile = GetSelectedProfile()
         If profile Is Nothing Then
             UpdateStatus("Select a profile first.")
@@ -134,10 +154,21 @@ Public Class MainForm
             Return
         End If
 
-        Dim effectiveDomain = GetEffectiveDomain()
+        Dim connectEnabled = btnConnect.Enabled
+        Dim disconnectEnabled = btnDisconnect.Enabled
+        Dim profileSelectorEnabled = cboProfile.Enabled
+        Dim adminEnabled = btnAdmin.Enabled
+
+        btnConnect.Enabled = False
+        btnDisconnect.Enabled = False
+        cboProfile.Enabled = False
+        btnAdmin.Enabled = False
+        UpdateStatus("Disconnecting...")
+
+        Dim refreshWithSelection = False
 
         Try
-            Dim result = NetDrive.UnmapDrive(profile, False)
+            Dim result = Await Task.Run(Function() NetDrive.UnmapDrive(profile, False))
             If result.Success Then
                 UpdateStatus(result.Message)
                 Logger.Info(result.Message)
@@ -149,6 +180,13 @@ Public Class MainForm
         Catch ex As Exception
             UpdateStatus("Error disconnecting.")
             Logger.Error($"Unhandled disconnect error: {ex}")
+            MessageBox.Show(Me, "Failed to disconnect. Check your connection and try again.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            btnConnect.Enabled = connectEnabled
+            btnDisconnect.Enabled = disconnectEnabled
+            cboProfile.Enabled = profileSelectorEnabled
+            btnAdmin.Enabled = adminEnabled
+            RefreshCredentialUiState(refreshWithSelection)
         End Try
     End Sub
 

@@ -8,6 +8,7 @@ Imports System.Drawing
 Imports System.Linq
 Imports System.Net
 Imports System.Net.Sockets
+Imports System.Threading.Tasks
 
 Public Class AdminForm
     Private ReadOnly _binding As New BindingSource()
@@ -122,7 +123,7 @@ Public Class AdminForm
         End If
     End Sub
 
-    Private Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
+    Private Async Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
         Dim profile = GetSelectedProfile()
         If profile Is Nothing Then
             MessageBox.Show(Me, "Select a profile to test.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -135,38 +136,55 @@ Public Class AdminForm
             Return
         End If
 
+        btnTest.Enabled = False
+        AdminStatusLabel.Text = "Testing connectivity..."
+
         Try
-            Dim addresses = Dns.GetHostAddresses(host)
-            Dim success = False
-            Dim errors As New List(Of String)()
+            Dim testOutcome = Await Task.Run(Function()
+                                                 Try
+                                                     Dim addresses = Dns.GetHostAddresses(host)
+                                                     Dim success = False
+                                                     Dim errors As New List(Of String)()
 
-            For Each address In addresses
-                Using client As New TcpClient()
-                    Try
-                        Dim connectTask = client.ConnectAsync(address, 445)
-                        Dim completed = connectTask.Wait(TimeSpan.FromSeconds(5))
-                        If completed AndAlso client.Connected Then
-                            success = True
-                            Exit For
-                        ElseIf Not completed Then
-                            errors.Add($"Timeout connecting to {address}.")
-                        Else
-                            errors.Add($"Unable to connect to {address}.")
-                        End If
-                    Catch ex As Exception
-                        errors.Add($"{address}: {ex.Message}")
-                    End Try
-                End Using
-            Next
+                                                     For Each address In addresses
+                                                         Using client As New TcpClient()
+                                                             Try
+                                                                 Dim connectTask = client.ConnectAsync(address, 445)
+                                                                 Dim completed = connectTask.Wait(TimeSpan.FromSeconds(5))
+                                                                 If completed AndAlso client.Connected Then
+                                                                     success = True
+                                                                     Exit For
+                                                                 ElseIf Not completed Then
+                                                                     errors.Add($"Timeout connecting to {address}.")
+                                                                 Else
+                                                                     errors.Add($"Unable to connect to {address}.")
+                                                                 End If
+                                                             Catch ex As Exception
+                                                                 errors.Add($"{address}: {ex.Message}")
+                                                             End Try
+                                                         End Using
+                                                     Next
 
-            If success Then
+                                                     Return (Success:=success, Errors:=errors, DnsError:=CStr(Nothing))
+                                                 Catch ex As Exception
+                                                     Return (Success:=False, Errors:=New List(Of String)(), DnsError:=$"DNS lookup failed for {host}: {ex.Message}")
+                                                 End Try
+                                             End Function)
+
+            If Not String.IsNullOrEmpty(testOutcome.DnsError) Then
+                MessageBox.Show(Me, testOutcome.DnsError, "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ElseIf testOutcome.Success Then
                 MessageBox.Show(Me, $"Successfully connected to {host} on port 445.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                Dim detail = String.Join(Environment.NewLine, errors)
+                Dim detail = String.Join(Environment.NewLine, testOutcome.Errors)
                 MessageBox.Show(Me, $"Unable to reach {host} on port 445.{Environment.NewLine}{detail}", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Catch ex As Exception
-            MessageBox.Show(Me, $"DNS lookup failed for {host}: {ex.Message}", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Logger.Error($"Unhandled test error: {ex}")
+            MessageBox.Show(Me, "An unexpected error occurred while testing the connection.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            AdminStatusLabel.Text = "Ready"
+            UpdateButtonStates()
         End Try
     End Sub
 
