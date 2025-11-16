@@ -36,7 +36,7 @@ Public Class NetDrive
             Return (False, "Profile is required.", -1)
         End If
 
-        Dim driveLetter = NormalizeDriveLetter(profile.DriveLetter)
+        Dim driveLetter = ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)
         If String.IsNullOrWhiteSpace(driveLetter) Then
             Return (False, "Drive letter is missing.", -1)
         End If
@@ -72,7 +72,7 @@ Public Class NetDrive
             Return (False, "Profile is required.", -1)
         End If
 
-        Dim driveLetter = NormalizeDriveLetter(profile.DriveLetter)
+        Dim driveLetter = ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)
         If String.IsNullOrWhiteSpace(driveLetter) Then
             Return (False, "Drive letter is missing.", -1)
         End If
@@ -83,23 +83,6 @@ Public Class NetDrive
         End If
 
         Return (False, GetFriendlyMessage(result), result)
-    End Function
-
-    Private Shared Function NormalizeDriveLetter(letter As String) As String
-        If String.IsNullOrWhiteSpace(letter) Then
-            Return Nothing
-        End If
-
-        Dim trimmed = letter.Trim()
-        If trimmed.Length = 1 Then
-            Return trimmed & ":"
-        End If
-
-        If trimmed.EndsWith(":") Then
-            Return trimmed
-        End If
-
-        Return trimmed & ":"
     End Function
 
     Private Shared Function GetFriendlyMessage(code As Integer) As String

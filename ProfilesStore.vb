@@ -32,12 +32,27 @@ Public Class ProfilesStore
                 If profiles Is Nothing Then
                     Return New List(Of Profile)()
                 End If
+
+                Dim validProfiles As New List(Of Profile)()
                 For Each profile In profiles
-                    If profile.Domain Is Nothing Then
-                        profile.Domain = String.Empty
+                    If profile Is Nothing Then
+                        Continue For
                     End If
+
+                    profile.Domain = If(profile.Domain, String.Empty).Trim()
+                    profile.DriveLetter = ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)
+
+                    If Not ProfileValidation.IsValidUnc(profile.Unc) OrElse
+                       Not ProfileValidation.IsValidDriveLetter(profile.DriveLetter) OrElse
+                       Not ProfileValidation.IsValidDomain(profile.Domain) Then
+                        Logger.Error($"Skipping invalid profile '{profile.Name}'. Verify UNC, drive letter, and domain values.")
+                        Continue For
+                    End If
+
+                    validProfiles.Add(profile)
                 Next
-                Return profiles
+
+                Return validProfiles
             End Using
         Catch ex As Exception
             Logger.Error($"Failed to load profiles: {ex}")
@@ -65,6 +80,15 @@ Public Class ProfilesStore
                     profile.Domain = String.Empty
                 Else
                     profile.Domain = profile.Domain.Trim()
+                End If
+
+                profile.DriveLetter = ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)
+
+                If Not ProfileValidation.IsValidUnc(profile.Unc) OrElse
+                   Not ProfileValidation.IsValidDriveLetter(profile.DriveLetter) OrElse
+                   Not ProfileValidation.IsValidDomain(profile.Domain) Then
+                    Logger.Error($"Skipping invalid profile '{profile.Name}' during save.")
+                    Continue For
                 End If
 
                 data.Add(profile)

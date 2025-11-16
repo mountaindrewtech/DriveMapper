@@ -130,7 +130,7 @@ Public Class AdminForm
         End If
 
         Dim host As String = Nothing
-        If Not TryGetHostFromUnc(profile.Unc, host) Then
+        If Not ProfileValidation.TryGetHostFromUnc(profile.Unc, host) Then
             MessageBox.Show(Me, "Profile UNC must be in the form \\server\share.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
@@ -245,7 +245,7 @@ Public Class AdminForm
                 Dim candidate As New ProfilesStore.Profile With {
                     .Name = editor.ProfileName,
                     .Unc = editor.ProfileUnc,
-                    .DriveLetter = NormalizeDriveLetter(editor.ProfileDriveLetter),
+                    .DriveLetter = ProfileValidation.NormalizeDriveLetter(editor.ProfileDriveLetter),
                     .UseCredentialManager = editor.ProfileUsesCredentialManager,
                     .Domain = editor.ProfileDomain
                 }
@@ -268,15 +268,11 @@ Public Class AdminForm
             Return "Name is required."
         End If
 
-        If Not IsValidUnc(profile.Unc) Then
+        If Not ProfileValidation.IsValidUnc(profile.Unc) Then
             Return "UNC path must be in the form \\server\share."
         End If
 
-        If String.IsNullOrWhiteSpace(profile.DriveLetter) Then
-            Return "Drive letter is required."
-        End If
-
-        If profile.DriveLetter.Length <> 2 OrElse profile.DriveLetter(1) <> ":"c OrElse Not Char.IsLetter(profile.DriveLetter(0)) Then
+        If Not ProfileValidation.IsValidDriveLetter(profile.DriveLetter) Then
             Return "Drive letter must be a single letter (e.g. Z:)."
         End If
 
@@ -284,75 +280,25 @@ Public Class AdminForm
             Return "Drive letter must be unique across profiles."
         End If
 
+        If Not ProfileValidation.IsValidDomain(profile.Domain) Then
+            Return "Domain contains invalid characters."
+        End If
+
         Return Nothing
     End Function
 
-    Private Shared Function IsValidUnc(unc As String) As Boolean
-        If String.IsNullOrWhiteSpace(unc) Then
-            Return False
-        End If
-
-        Dim trimmed = unc.Trim()
-        If trimmed.Length < 3 OrElse Not trimmed.StartsWith("\\") Then
-            Return False
-        End If
-
-        If trimmed.Length < 4 OrElse trimmed(1) <> "\"c Then
-            Return False
-        End If
-
-        Dim path = trimmed.Substring(2)
-        Dim segments = path.Split(New Char() {"\"c}, StringSplitOptions.RemoveEmptyEntries)
-        Return segments.Length >= 2 AndAlso segments(0).Length > 0 AndAlso segments(1).Length > 0
-    End Function
-
     Private Function IsDriveLetterUnique(letter As String, original As ProfilesStore.Profile) As Boolean
-        Dim normalized = NormalizeDriveLetter(letter)
+        Dim normalized = ProfileValidation.NormalizeDriveLetter(letter)
         For Each profile In _profiles
             If original IsNot Nothing AndAlso Object.ReferenceEquals(profile, original) Then
                 Continue For
             End If
 
-            If String.Equals(NormalizeDriveLetter(profile.DriveLetter), normalized, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(ProfileValidation.NormalizeDriveLetter(profile.DriveLetter), normalized, StringComparison.OrdinalIgnoreCase) Then
                 Return False
             End If
         Next
         Return True
-    End Function
-
-    Private Shared Function NormalizeDriveLetter(letter As String) As String
-        If String.IsNullOrWhiteSpace(letter) Then
-            Return String.Empty
-        End If
-
-        Dim trimmed = letter.Trim()
-        If trimmed.Length = 0 Then
-            Return String.Empty
-        End If
-
-        Dim ch = trimmed(0)
-        If Not Char.IsLetter(ch) Then
-            Return trimmed.ToUpperInvariant()
-        End If
-
-        Return $"{Char.ToUpperInvariant(ch)}:"
-    End Function
-
-    Private Shared Function TryGetHostFromUnc(unc As String, ByRef host As String) As Boolean
-        host = Nothing
-        If Not IsValidUnc(unc) Then
-            Return False
-        End If
-
-        Dim trimmed = unc.Trim()
-        Dim withoutPrefix = trimmed.Substring(2)
-        Dim segments = withoutPrefix.Split(New Char() {"\"c}, StringSplitOptions.RemoveEmptyEntries)
-        If segments.Length >= 1 Then
-            host = segments(0)
-            Return True
-        End If
-
-        Return False
     End Function
 
     Private Shared Function CloneProfile(profile As ProfilesStore.Profile) As ProfilesStore.Profile

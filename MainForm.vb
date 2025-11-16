@@ -50,6 +50,13 @@ Public Class MainForm
             Return
         End If
 
+        If Not ProfileValidation.IsValidUnc(profile.Unc) OrElse Not ProfileValidation.IsValidDriveLetter(profile.DriveLetter) Then
+            Logger.Error($"Selected profile '{profile.Name}' is invalid; mapping cancelled.")
+            MessageBox.Show(Me, "The selected profile is invalid. Please review the UNC path and drive letter in the Admin panel.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            UpdateStatus("Profile validation failed.")
+            Return
+        End If
+
         Try
             Dim effectiveDomain = GetEffectiveDomain()
             Dim credentialTarget = GetCredentialTarget(profile, effectiveDomain)
