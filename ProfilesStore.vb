@@ -40,8 +40,8 @@ Public Class ProfilesStore
                 Return profiles
             End Using
         Catch ex As Exception
-            System.Diagnostics.Debug.WriteLine($"ProfilesStore.LoadProfiles failed: {ex}")
-            Return New List(Of Profile)()
+            Logger.Error($"Failed to load profiles: {ex}")
+            Throw
         End Try
     End Function
 
@@ -74,7 +74,8 @@ Public Class ProfilesStore
                 JsonSerializer.Serialize(stream, data, SerializerOptions)
             End Using
         Catch ex As Exception
-            System.Diagnostics.Debug.WriteLine($"ProfilesStore.SaveProfiles failed: {ex}")
+            Logger.Error($"Failed to save profiles: {ex}")
+            Throw
         End Try
     End Sub
 End Class

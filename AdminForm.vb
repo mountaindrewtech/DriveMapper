@@ -180,7 +180,8 @@ Public Class AdminForm
             DialogResult = DialogResult.OK
             Close()
         Catch ex As Exception
-            MessageBox.Show(Me, $"Failed to save profiles: {ex.Message}", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Logger.Error($"Failed to save profiles: {ex}")
+            MessageBox.Show(Me, $"Profiles could not be saved: {ex.Message}", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

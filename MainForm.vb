@@ -154,12 +154,18 @@ Public Class MainForm
 
             Dim message = $"Loaded {_profiles.Count} profile(s)."
             UpdateStatus(message)
+            Dim hasProfiles = _profiles.Count > 0
+            btnConnect.Enabled = hasProfiles
+            btnDisconnect.Enabled = hasProfiles
             PopulateSelectedProfileFields()
         Catch ex As Exception
             _profiles = New List(Of ProfilesStore.Profile)()
             cboProfile.DataSource = Nothing
+            btnConnect.Enabled = False
+            btnDisconnect.Enabled = False
             UpdateStatus("Failed to load profiles.")
             Logger.Error($"Failed to load profiles: {ex}")
+            MessageBox.Show(Me, $"Drive profiles could not be loaded ({ex.Message}). Check permissions or the JSON file under %ProgramData%\DriveMapper.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
             PopulateSelectedProfileFields()
         End Try
     End Sub
