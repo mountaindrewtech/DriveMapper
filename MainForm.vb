@@ -3,6 +3,7 @@
 ' See LICENSE for details.
 
 Imports System.Collections.Generic
+Imports System.Diagnostics
 Imports System.Threading.Tasks
 
 Public Class MainForm
@@ -15,10 +16,16 @@ Public Class MainForm
         cboProfile.DisplayMember = NameOf(ProfilesStore.Profile.Name)
         LoadProfilesIntoCombo()
         txtDomain.ReadOnly = Not SecurityHelpers.IsElevatedAdmin()
+        chkOpenOnConnect.Checked = My.Settings.OpenOnConnect
     End Sub
 
     Private Sub MainForm_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         btnAdmin.Enabled = SecurityHelpers.IsElevatedAdmin()
+    End Sub
+
+    Private Sub chkOpenOnConnect_CheckedChanged(sender As Object, e As EventArgs) Handles chkOpenOnConnect.CheckedChanged
+        My.Settings.OpenOnConnect = chkOpenOnConnect.Checked
+        My.Settings.Save()
     End Sub
 
     Private Sub btnAdmin_Click(sender As Object, e As EventArgs) Handles btnAdmin.Click
@@ -121,6 +128,23 @@ Public Class MainForm
                     Catch ex As Exception
                         Logger.Error($"Failed to save credential for {profile.Name}: {ex}")
                     End Try
+                End If
+
+                If chkOpenOnConnect.Checked Then
+                    Dim openPath = ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)
+                    If Not String.IsNullOrWhiteSpace(openPath) Then
+                        openPath &= "\"
+                    Else
+                        openPath = profile.Unc
+                    End If
+
+                    If Not String.IsNullOrWhiteSpace(openPath) Then
+                        Try
+                            Process.Start("explorer.exe", openPath)
+                        Catch ex As Exception
+                            Logger.Error($"Failed to open File Explorer for {profile.Name}: {ex}")
+                        End Try
+                    End If
                 End If
 
                 refreshWithSelection = True
