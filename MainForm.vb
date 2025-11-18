@@ -395,4 +395,7 @@ Public Class MainForm
         Return $"{CredentialPrefix}{profile.Name}_{domainKey}"
     End Function
 
+    Private Sub TableLayoutPanel4_Paint(sender As Object, e As PaintEventArgs) Handles TableLayoutPanel4.Paint
+
+    End Sub
 End Class

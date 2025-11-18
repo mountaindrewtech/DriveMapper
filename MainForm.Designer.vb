@@ -52,8 +52,10 @@ Partial Class MainForm
         txtUser = New TextBox()
         Label1 = New Label()
         Panel2 = New Panel()
-        FlowLayoutPanel1 = New FlowLayoutPanel()
         Label2 = New Label()
+        TableLayoutPanel4 = New TableLayoutPanel()
+        FlowLayoutPanel1 = New FlowLayoutPanel()
+        chkOpenOnConnect = New CheckBox()
         FlowLayoutPanelCredentialOptions.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         statusStrip.SuspendLayout()
@@ -61,6 +63,7 @@ Partial Class MainForm
         Panel1.SuspendLayout()
         TableLayoutPanel3.SuspendLayout()
         Panel2.SuspendLayout()
+        TableLayoutPanel4.SuspendLayout()
         FlowLayoutPanel1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -235,9 +238,10 @@ Partial Class MainForm
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 4
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 45F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 58.82353F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 58.8235359F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 41.17647F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle())
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         TableLayoutPanel1.Size = New Size(778, 333)
         TableLayoutPanel1.TabIndex = 18
         ' 
@@ -398,8 +402,8 @@ Partial Class MainForm
         ' Panel2
         ' 
         Panel2.BackColor = Color.White
-        Panel2.Controls.Add(FlowLayoutPanel1)
         Panel2.Controls.Add(Label2)
+        Panel2.Controls.Add(TableLayoutPanel4)
         Panel2.Dock = DockStyle.Fill
         Panel2.Location = New Point(0, 211)
         Panel2.Margin = New Padding(0, 10, 0, 0)
@@ -407,20 +411,6 @@ Partial Class MainForm
         Panel2.Padding = New Padding(10)
         Panel2.Size = New Size(778, 99)
         Panel2.TabIndex = 19
-        ' 
-        ' FlowLayoutPanel1
-        ' 
-        FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        FlowLayoutPanel1.AutoSize = True
-        FlowLayoutPanel1.Controls.Add(btnConnect)
-        FlowLayoutPanel1.Controls.Add(btnDisconnect)
-        FlowLayoutPanel1.Controls.Add(btnAdmin)
-        FlowLayoutPanel1.Location = New Point(10, 29)
-        FlowLayoutPanel1.Margin = New Padding(0)
-        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        FlowLayoutPanel1.Size = New Size(765, 32)
-        FlowLayoutPanel1.TabIndex = 1
-        FlowLayoutPanel1.WrapContents = False
         ' 
         ' Label2
         ' 
@@ -433,6 +423,46 @@ Partial Class MainForm
         Label2.Size = New Size(58, 19)
         Label2.TabIndex = 0
         Label2.Text = "Actions"
+        ' 
+        ' TableLayoutPanel4
+        ' 
+        TableLayoutPanel4.ColumnCount = 1
+        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle())
+        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 20F))
+        TableLayoutPanel4.Controls.Add(FlowLayoutPanel1, 0, 0)
+        TableLayoutPanel4.Controls.Add(chkOpenOnConnect, 0, 1)
+        TableLayoutPanel4.Location = New Point(12, 28)
+        TableLayoutPanel4.Name = "TableLayoutPanel4"
+        TableLayoutPanel4.RowCount = 2
+        TableLayoutPanel4.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel4.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel4.Size = New Size(752, 69)
+        TableLayoutPanel4.TabIndex = 20
+        ' 
+        ' FlowLayoutPanel1
+        ' 
+        FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        FlowLayoutPanel1.AutoSize = True
+        FlowLayoutPanel1.Controls.Add(btnConnect)
+        FlowLayoutPanel1.Controls.Add(btnDisconnect)
+        FlowLayoutPanel1.Controls.Add(btnAdmin)
+        FlowLayoutPanel1.Location = New Point(0, 0)
+        FlowLayoutPanel1.Margin = New Padding(0)
+        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        FlowLayoutPanel1.Size = New Size(752, 32)
+        FlowLayoutPanel1.TabIndex = 1
+        FlowLayoutPanel1.WrapContents = False
+        ' 
+        ' chkOpenOnConnect
+        ' 
+        chkOpenOnConnect.AutoSize = True
+        chkOpenOnConnect.Location = New Point(0, 34)
+        chkOpenOnConnect.Margin = New Padding(0, 0, 16, 0)
+        chkOpenOnConnect.Name = "chkOpenOnConnect"
+        chkOpenOnConnect.Size = New Size(194, 19)
+        chkOpenOnConnect.TabIndex = 2
+        chkOpenOnConnect.Text = "Open in File Exporer on connect"
+        chkOpenOnConnect.UseVisualStyleBackColor = True
         ' 
         ' MainForm
         ' 
@@ -464,6 +494,8 @@ Partial Class MainForm
         TableLayoutPanel3.PerformLayout()
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
+        TableLayoutPanel4.ResumeLayout(False)
+        TableLayoutPanel4.PerformLayout()
         FlowLayoutPanel1.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
@@ -497,4 +529,6 @@ Partial Class MainForm
     Friend WithEvents Label2 As Label
     Friend WithEvents statusStrip As StatusStrip
     Friend WithEvents toolStatus As ToolStripStatusLabel
+    Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
+    Friend WithEvents chkOpenOnConnect As CheckBox
 End Class
