@@ -95,7 +95,7 @@ Public Class MainForm
             Dim useCredentialManager = profile.UseCredentialManager
             Dim useSavedCredential = useCredentialManager AndAlso chkUseSavedCredential.Checked
             Dim rememberCredential = useCredentialManager AndAlso chkRememberCredential.Checked
-            Dim savedCredential As (User As String, Password As String)?
+            Dim savedCredential As (User As String, Password As String)? = Nothing
 
             If useSavedCredential Then
                 Try
