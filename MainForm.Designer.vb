@@ -55,8 +55,8 @@ Partial Class MainForm
         Label2 = New Label()
         TableLayoutPanel4 = New TableLayoutPanel()
         FlowLayoutPanel1 = New FlowLayoutPanel()
-        chkOpenOnConnect = New CheckBox()
         btnCancel = New Button()
+        chkOpenOnConnect = New CheckBox()
         FlowLayoutPanelCredentialOptions.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         statusStrip.SuspendLayout()
@@ -455,17 +455,6 @@ Partial Class MainForm
         FlowLayoutPanel1.TabIndex = 1
         FlowLayoutPanel1.WrapContents = False
         ' 
-        ' chkOpenOnConnect
-        ' 
-        chkOpenOnConnect.AutoSize = True
-        chkOpenOnConnect.Location = New Point(0, 34)
-        chkOpenOnConnect.Margin = New Padding(0, 0, 16, 0)
-        chkOpenOnConnect.Name = "chkOpenOnConnect"
-        chkOpenOnConnect.Size = New Size(194, 19)
-        chkOpenOnConnect.TabIndex = 2
-        chkOpenOnConnect.Text = "Open in File Exporer on connect"
-        chkOpenOnConnect.UseVisualStyleBackColor = True
-        ' 
         ' btnCancel
         ' 
         btnCancel.Enabled = False
@@ -478,6 +467,17 @@ Partial Class MainForm
         btnCancel.TabIndex = 6
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = True
+        ' 
+        ' chkOpenOnConnect
+        ' 
+        chkOpenOnConnect.AutoSize = True
+        chkOpenOnConnect.Location = New Point(0, 34)
+        chkOpenOnConnect.Margin = New Padding(0, 0, 16, 0)
+        chkOpenOnConnect.Name = "chkOpenOnConnect"
+        chkOpenOnConnect.Size = New Size(194, 19)
+        chkOpenOnConnect.TabIndex = 2
+        chkOpenOnConnect.Text = "Open in File Exporer on connect"
+        chkOpenOnConnect.UseVisualStyleBackColor = True
         ' 
         ' MainForm
         ' 

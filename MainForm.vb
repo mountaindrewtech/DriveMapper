@@ -10,6 +10,9 @@ Public Class MainForm
     Private _profiles As List(Of ProfilesStore.Profile) = New List(Of ProfilesStore.Profile)()
     Private ReadOnly _lastCredentialKeyByProfile As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
     Private _isPopulatingProfile As Boolean
+    Private _isMappingInProgress As Boolean
+    Private _cancelRequested As Boolean
+    Private _currentOperationId As Integer
     Private Const CredentialPrefix As String = "DriveMapper_"
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -17,6 +20,7 @@ Public Class MainForm
         LoadProfilesIntoCombo()
         txtDomain.ReadOnly = Not SecurityHelpers.IsElevatedAdmin()
         chkOpenOnConnect.Checked = My.Settings.OpenOnConnect
+        btnCancel.Enabled = False
     End Sub
 
     Private Sub MainForm_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
@@ -65,6 +69,11 @@ Public Class MainForm
             Return
         End If
 
+        _isMappingInProgress = True
+        _cancelRequested = False
+        _currentOperationId += 1
+        Dim thisOperationId = _currentOperationId
+
         Dim connectEnabled = btnConnect.Enabled
         Dim disconnectEnabled = btnDisconnect.Enabled
         Dim profileSelectorEnabled = cboProfile.Enabled
@@ -72,11 +81,13 @@ Public Class MainForm
 
         btnConnect.Enabled = False
         btnDisconnect.Enabled = False
+        btnCancel.Enabled = True
         cboProfile.Enabled = False
         btnAdmin.Enabled = False
         UpdateStatus("Connecting...")
 
         Dim refreshWithSelection = False
+        Dim result As (Success As Boolean, Message As String, Code As Integer)
 
         Try
             Dim effectiveDomain = GetEffectiveDomain()
@@ -113,7 +124,17 @@ Public Class MainForm
 
             Dim hasPersistentCredential = useSavedCredential AndAlso savedCredential.HasValue
             Dim persist = useCredentialManager AndAlso (hasPersistentCredential OrElse rememberCredential)
-            Dim result = Await Task.Run(Function() NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist))
+            result = Await Task.Run(Function() NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist))
+
+            If thisOperationId <> _currentOperationId Then
+                Return
+            End If
+
+            If _cancelRequested Then
+                UpdateStatus("Connection cancelled.")
+                refreshWithSelection = False
+                Return
+            End If
 
             If result.Success Then
                 Dim statusMessage = $"{result.Message} as {identityDisplay}"
@@ -154,16 +175,39 @@ Public Class MainForm
                 refreshWithSelection = False
             End If
         Catch ex As Exception
-            UpdateStatus("Error connecting.")
-            Logger.Error($"Unhandled connect error: {ex}")
-            MessageBox.Show(Me, "Failed to connect. Check your profile settings or contact your administrator.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If thisOperationId = _currentOperationId AndAlso _cancelRequested Then
+                UpdateStatus("Connection cancelled.")
+            Else
+                UpdateStatus("Error connecting.")
+                Logger.Error($"Unhandled connect error: {ex}")
+                MessageBox.Show(Me, "Failed to connect. Check your profile settings or contact your administrator.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         Finally
-            btnConnect.Enabled = connectEnabled
-            btnDisconnect.Enabled = disconnectEnabled
-            cboProfile.Enabled = profileSelectorEnabled
-            btnAdmin.Enabled = adminEnabled
-            RefreshCredentialUiState(refreshWithSelection)
+            If thisOperationId = _currentOperationId Then
+                _isMappingInProgress = False
+                btnCancel.Enabled = False
+                btnConnect.Enabled = connectEnabled
+                btnDisconnect.Enabled = disconnectEnabled
+                cboProfile.Enabled = profileSelectorEnabled
+                btnAdmin.Enabled = adminEnabled
+                RefreshCredentialUiState(refreshWithSelection)
+            End If
         End Try
+    End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        If _isMappingInProgress Then
+            _cancelRequested = True
+            UpdateStatus("Cancelling...")
+
+            btnCancel.Enabled = False
+            btnConnect.Enabled = True
+            btnDisconnect.Enabled = True
+            btnAdmin.Enabled = True
+            cboProfile.Enabled = True
+
+            _isMappingInProgress = False
+        End If
     End Sub
 
     Private Async Sub btnDisconnect_Click(sender As Object, e As EventArgs) Handles btnDisconnect.Click
