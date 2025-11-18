@@ -56,6 +56,7 @@ Partial Class MainForm
         TableLayoutPanel4 = New TableLayoutPanel()
         FlowLayoutPanel1 = New FlowLayoutPanel()
         chkOpenOnConnect = New CheckBox()
+        btnCancel = New Button()
         FlowLayoutPanelCredentialOptions.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         statusStrip.SuspendLayout()
@@ -183,7 +184,7 @@ Partial Class MainForm
         btnAdmin.BackColor = Color.White
         btnAdmin.FlatStyle = FlatStyle.Flat
         btnAdmin.Font = New Font("Segoe UI", 9F)
-        btnAdmin.Location = New Point(238, 0)
+        btnAdmin.Location = New Point(361, 0)
         btnAdmin.Margin = New Padding(4, 0, 8, 0)
         btnAdmin.Name = "btnAdmin"
         btnAdmin.Padding = New Padding(8, 0, 8, 0)
@@ -198,7 +199,7 @@ Partial Class MainForm
         btnDisconnect.BackColor = Color.White
         btnDisconnect.FlatStyle = FlatStyle.Flat
         btnDisconnect.Font = New Font("Segoe UI", 9F)
-        btnDisconnect.Location = New Point(116, 0)
+        btnDisconnect.Location = New Point(239, 0)
         btnDisconnect.Margin = New Padding(4, 0, 8, 0)
         btnDisconnect.Name = "btnDisconnect"
         btnDisconnect.Padding = New Padding(8, 0, 8, 0)
@@ -444,6 +445,7 @@ Partial Class MainForm
         FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         FlowLayoutPanel1.AutoSize = True
         FlowLayoutPanel1.Controls.Add(btnConnect)
+        FlowLayoutPanel1.Controls.Add(btnCancel)
         FlowLayoutPanel1.Controls.Add(btnDisconnect)
         FlowLayoutPanel1.Controls.Add(btnAdmin)
         FlowLayoutPanel1.Location = New Point(0, 0)
@@ -463,6 +465,19 @@ Partial Class MainForm
         chkOpenOnConnect.TabIndex = 2
         chkOpenOnConnect.Text = "Open in File Exporer on connect"
         chkOpenOnConnect.UseVisualStyleBackColor = True
+        ' 
+        ' btnCancel
+        ' 
+        btnCancel.Enabled = False
+        btnCancel.FlatStyle = FlatStyle.Flat
+        btnCancel.Location = New Point(116, 0)
+        btnCancel.Margin = New Padding(4, 0, 9, 0)
+        btnCancel.Name = "btnCancel"
+        btnCancel.Padding = New Padding(8, 0, 8, 0)
+        btnCancel.Size = New Size(110, 32)
+        btnCancel.TabIndex = 6
+        btnCancel.Text = "Cancel"
+        btnCancel.UseVisualStyleBackColor = True
         ' 
         ' MainForm
         ' 
@@ -531,4 +546,5 @@ Partial Class MainForm
     Friend WithEvents toolStatus As ToolStripStatusLabel
     Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
     Friend WithEvents chkOpenOnConnect As CheckBox
+    Friend WithEvents btnCancel As Button
 End Class
