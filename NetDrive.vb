@@ -31,7 +31,7 @@ Public Class NetDrive
     Private Shared Function WNetCancelConnection2(lpName As String, dwFlags As Integer, fForce As Boolean) As Integer
     End Function
 
-    Public Shared Function MapDrive(profile As ProfilesStore.Profile, Optional user As String = Nothing, Optional password As String = Nothing, Optional persist As Boolean = True) As (Success As Boolean, Message As String, Code As Integer)
+    Public Shared Function MapDrive(profile As ProfilesStore.Profile, Optional user As String = Nothing, Optional password As String = Nothing, Optional persist As Boolean = True, Optional useCredentialManager As Boolean = True) As (Success As Boolean, Message As String, Code As Integer)
         If profile Is Nothing Then
             Return (False, "Profile is required.", -1)
         End If
@@ -55,7 +55,7 @@ Public Class NetDrive
         If persist Then
             flags = flags Or CONNECT_UPDATE_PROFILE
         End If
-        If profile.UseCredentialManager Then
+        If useCredentialManager Then
             flags = flags Or CONNECT_CMD_SAVECRED
         End If
 

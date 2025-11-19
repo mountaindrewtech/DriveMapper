@@ -24,7 +24,7 @@ Public Class MainForm
     End Sub
 
     Private Sub MainForm_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        btnAdmin.Enabled = SecurityHelpers.IsElevatedAdmin()
+        btnAdmin.Enabled = True
     End Sub
 
     Private Sub chkOpenOnConnect_CheckedChanged(sender As Object, e As EventArgs) Handles chkOpenOnConnect.CheckedChanged
@@ -124,7 +124,7 @@ Public Class MainForm
 
             Dim hasPersistentCredential = useSavedCredential AndAlso savedCredential.HasValue
             Dim persist = useCredentialManager AndAlso (hasPersistentCredential OrElse rememberCredential)
-            result = Await Task.Run(Function() NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist))
+            result = Await Task.Run(Function() NetDrive.MapDrive(profile, If(String.IsNullOrWhiteSpace(loginIdentity), Nothing, loginIdentity), password, persist, useCredentialManager))
 
             If thisOperationId <> _currentOperationId Then
                 Return
@@ -325,12 +325,13 @@ Public Class MainForm
 
     Private Sub RefreshCredentialUiState(Optional resetCredentialSelection As Boolean = False)
         Dim profile = GetSelectedProfile()
-        Dim allowsCredentialManager = profile IsNot Nothing AndAlso profile.UseCredentialManager
+        Dim hasProfile = profile IsNot Nothing
+        Dim profileAllowsCredentialManager = Not hasProfile OrElse profile.UseCredentialManager
         Dim effectiveDomain = GetEffectiveDomain()
-        Dim credentialTarget = If(allowsCredentialManager, GetStoredCredentialTarget(profile, effectiveDomain), Nothing)
+        Dim credentialTarget = If(hasProfile, GetStoredCredentialTarget(profile, effectiveDomain), Nothing)
         Dim savedCredentialExists = False
 
-        If allowsCredentialManager AndAlso Not String.IsNullOrWhiteSpace(credentialTarget) Then
+        If hasProfile AndAlso Not String.IsNullOrWhiteSpace(credentialTarget) Then
             Try
                 savedCredentialExists = CredentialHelper.CredentialExists(credentialTarget)
             Catch ex As Exception
@@ -340,21 +341,21 @@ Public Class MainForm
             End Try
         End If
 
-        chkUseSavedCredential.Enabled = allowsCredentialManager AndAlso savedCredentialExists
+        chkUseSavedCredential.Enabled = profileAllowsCredentialManager AndAlso savedCredentialExists
         If resetCredentialSelection Then
             chkUseSavedCredential.Checked = chkUseSavedCredential.Enabled
         ElseIf Not chkUseSavedCredential.Enabled Then
             chkUseSavedCredential.Checked = False
         End If
 
-        chkRememberCredential.Enabled = allowsCredentialManager
-        If Not allowsCredentialManager Then
+        chkRememberCredential.Enabled = profileAllowsCredentialManager
+        If Not profileAllowsCredentialManager Then
             chkRememberCredential.Checked = False
         End If
 
         Dim profileName = If(profile Is Nothing, Nothing, profile.Name)
         Dim cachedKeyExists = profileName IsNot Nothing AndAlso _lastCredentialKeyByProfile.ContainsKey(profileName)
-        btnDeleteSavedCredential.Enabled = allowsCredentialManager AndAlso (savedCredentialExists OrElse cachedKeyExists)
+        btnDeleteSavedCredential.Enabled = profileAllowsCredentialManager AndAlso hasProfile AndAlso (savedCredentialExists OrElse cachedKeyExists)
     End Sub
 
     Private Function GetStoredCredentialTarget(profile As ProfilesStore.Profile, effectiveDomain As String) As String
