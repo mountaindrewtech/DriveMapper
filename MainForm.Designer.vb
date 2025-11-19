@@ -26,6 +26,7 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         cboProfile = New ComboBox()
         lblProfile = New Label()
         lblCredentials = New Label()
@@ -490,6 +491,7 @@ Partial Class MainForm
         Controls.Add(lblCredentials)
         Controls.Add(TableLayoutPanel1)
         FormBorderStyle = FormBorderStyle.FixedDialog
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MaximizeBox = False
         MinimumSize = New Size(600, 360)
         Name = "MainForm"
