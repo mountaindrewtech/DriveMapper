@@ -2,6 +2,8 @@
 
 A fast, secure, and modern network drive mapping tool for Windows — built on **.NET 10** and designed for simplicity, reliability, and ease of deployment.
 
+<img width="967" height="671" alt="Screenshot 2025-11-18 221831" src="https://github.com/user-attachments/assets/1d581215-938a-46b2-afe7-efcfc924a108" />
+
 ## 🚀 Highlights
 - **One‑Click Drive Mapping** with profile-based configuration  
 - **Async engine** for smooth, non-blocking connections  
