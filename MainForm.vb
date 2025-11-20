@@ -14,6 +14,13 @@ Public Class MainForm
     Private _cancelRequested As Boolean
     Private _currentOperationId As Integer
     Private Const CredentialPrefix As String = "DriveMapper_"
+    Private Structure OperationUiState
+        Public ConnectEnabled As Boolean
+        Public DisconnectEnabled As Boolean
+        Public CancelEnabled As Boolean
+        Public ProfileEnabled As Boolean
+        Public AdminEnabled As Boolean
+    End Structure
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         cboProfile.DisplayMember = NameOf(ProfilesStore.Profile.Name)
@@ -74,17 +81,7 @@ Public Class MainForm
         _currentOperationId += 1
         Dim thisOperationId = _currentOperationId
 
-        Dim connectEnabled = btnConnect.Enabled
-        Dim disconnectEnabled = btnDisconnect.Enabled
-        Dim profileSelectorEnabled = cboProfile.Enabled
-        Dim adminEnabled = btnAdmin.Enabled
-
-        btnConnect.Enabled = False
-        btnDisconnect.Enabled = False
-        btnCancel.Enabled = True
-        cboProfile.Enabled = False
-        btnAdmin.Enabled = False
-        UpdateStatus("Connecting...")
+        Dim uiState = BeginDriveOperation("Connecting...", allowCancel:=True)
 
         Dim refreshWithSelection = False
         Dim result As (Success As Boolean, Message As String, Code As Integer)
@@ -137,7 +134,13 @@ Public Class MainForm
             End If
 
             If result.Success Then
-                Dim statusMessage = $"{result.Message} as {identityDisplay}"
+                Dim actualMapping = NetDrive.CheckDriveMapping(profile.DriveLetter)
+                Dim statusMessage As String
+                If actualMapping.IsMapped AndAlso Not String.IsNullOrWhiteSpace(actualMapping.RemotePath) Then
+                    statusMessage = $"Mapped {ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)} to {actualMapping.RemotePath} as {identityDisplay}"
+                Else
+                    statusMessage = $"{result.Message} as {identityDisplay}"
+                End If
                 UpdateStatus(statusMessage)
 
                 _lastCredentialKeyByProfile(profile.Name) = credentialTarget
@@ -151,17 +154,17 @@ Public Class MainForm
                     End Try
                 End If
 
-                If chkOpenOnConnect.Checked Then
+                If chkOpenOnConnect.Checked AndAlso actualMapping.IsMapped Then
                     Dim openPath = ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)
-                    If Not String.IsNullOrWhiteSpace(openPath) Then
-                        openPath &= "\"
-                    Else
+                    If String.IsNullOrWhiteSpace(openPath) Then
                         openPath = profile.Unc
                     End If
 
                     If Not String.IsNullOrWhiteSpace(openPath) Then
+                        Dim explorerTarget = If(openPath.EndsWith("\"), openPath, openPath & "\")
                         Try
-                            Process.Start("explorer.exe", openPath)
+                            Logger.Info($"Opening File Explorer for {profile.Name} at {explorerTarget}.")
+                            Process.Start("explorer.exe", explorerTarget)
                         Catch ex As Exception
                             Logger.Error($"Failed to open File Explorer for {profile.Name}: {ex}")
                         End Try
@@ -186,28 +189,46 @@ Public Class MainForm
             If thisOperationId = _currentOperationId Then
                 _isMappingInProgress = False
                 btnCancel.Enabled = False
-                btnConnect.Enabled = connectEnabled
-                btnDisconnect.Enabled = disconnectEnabled
-                cboProfile.Enabled = profileSelectorEnabled
-                btnAdmin.Enabled = adminEnabled
-                RefreshCredentialUiState(refreshWithSelection)
+                FinishDriveOperation(uiState, refreshWithSelection)
             End If
         End Try
     End Sub
 
-    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        If _isMappingInProgress Then
-            _cancelRequested = True
-            UpdateStatus("Cancelling...")
-
-            btnCancel.Enabled = False
-            btnConnect.Enabled = True
-            btnDisconnect.Enabled = True
-            btnAdmin.Enabled = True
-            cboProfile.Enabled = True
-
-            _isMappingInProgress = False
+    Private Async Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Dim profile = GetSelectedProfile()
+        If profile Is Nothing Then
+            UpdateStatus("Select a profile to cancel.")
+            Return
         End If
+
+        _cancelRequested = True
+        Dim driveLetter = ProfileValidation.NormalizeDriveLetter(profile.DriveLetter)
+        If String.IsNullOrWhiteSpace(driveLetter) Then
+            UpdateStatus("No drive letter to cancel.")
+            Return
+        End If
+
+        UpdateStatus("Cancelling and cleaning up...")
+        btnCancel.Enabled = False
+        btnConnect.Enabled = True
+        btnDisconnect.Enabled = True
+        btnAdmin.Enabled = True
+        cboProfile.Enabled = True
+
+        Try
+            Dim cleanup = Await Task.Run(Function() NetDrive.ForceCleanupDrive(driveLetter))
+            If cleanup.Success Then
+                Logger.Info($"Cancelled mapping for {driveLetter} at user request.")
+                UpdateStatus($"Cancelled mapping for {driveLetter}.")
+            Else
+                Dim message = $"Cancel cleanup failed: {cleanup.Message} (code {cleanup.Code})"
+                UpdateStatus(message)
+                Logger.Error(message)
+            End If
+        Finally
+            _isMappingInProgress = False
+            RefreshCredentialUiState()
+        End Try
     End Sub
 
     Private Async Sub btnDisconnect_Click(sender As Object, e As EventArgs) Handles btnDisconnect.Click
@@ -218,16 +239,7 @@ Public Class MainForm
             Return
         End If
 
-        Dim connectEnabled = btnConnect.Enabled
-        Dim disconnectEnabled = btnDisconnect.Enabled
-        Dim profileSelectorEnabled = cboProfile.Enabled
-        Dim adminEnabled = btnAdmin.Enabled
-
-        btnConnect.Enabled = False
-        btnDisconnect.Enabled = False
-        cboProfile.Enabled = False
-        btnAdmin.Enabled = False
-        UpdateStatus("Disconnecting...")
+        Dim uiState = BeginDriveOperation("Disconnecting...", allowCancel:=False)
 
         Dim refreshWithSelection = False
 
@@ -244,13 +256,9 @@ Public Class MainForm
         Catch ex As Exception
             UpdateStatus("Error disconnecting.")
             Logger.Error($"Unhandled disconnect error: {ex}")
-            MessageBox.Show(Me, "Failed to disconnect. Check your connection and try again.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(Me, "Failed to disconnect. Check your connection and try again.", "DriveMapper", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            btnConnect.Enabled = connectEnabled
-            btnDisconnect.Enabled = disconnectEnabled
-            cboProfile.Enabled = profileSelectorEnabled
-            btnAdmin.Enabled = adminEnabled
-            RefreshCredentialUiState(refreshWithSelection)
+            FinishDriveOperation(uiState, refreshWithSelection)
         End Try
     End Sub
 
@@ -467,4 +475,34 @@ Public Class MainForm
     Private Sub TableLayoutPanel4_Paint(sender As Object, e As PaintEventArgs) Handles TableLayoutPanel4.Paint
 
     End Sub
+
+    Private Function BeginDriveOperation(statusMessage As String, allowCancel As Boolean) As OperationUiState
+        Dim previous = CaptureOperationUiState()
+        btnConnect.Enabled = False
+        btnDisconnect.Enabled = False
+        cboProfile.Enabled = False
+        btnAdmin.Enabled = False
+        btnCancel.Enabled = allowCancel
+        UpdateStatus(statusMessage)
+        Return previous
+    End Function
+
+    Private Sub FinishDriveOperation(previous As OperationUiState, refreshWithSelection As Boolean)
+        btnConnect.Enabled = previous.ConnectEnabled
+        btnDisconnect.Enabled = previous.DisconnectEnabled
+        btnCancel.Enabled = previous.CancelEnabled
+        cboProfile.Enabled = previous.ProfileEnabled
+        btnAdmin.Enabled = previous.AdminEnabled
+        RefreshCredentialUiState(refreshWithSelection)
+    End Sub
+
+    Private Function CaptureOperationUiState() As OperationUiState
+        Return New OperationUiState With {
+            .ConnectEnabled = btnConnect.Enabled,
+            .DisconnectEnabled = btnDisconnect.Enabled,
+            .CancelEnabled = btnCancel.Enabled,
+            .ProfileEnabled = cboProfile.Enabled,
+            .AdminEnabled = btnAdmin.Enabled
+        }
+    End Function
 End Class
